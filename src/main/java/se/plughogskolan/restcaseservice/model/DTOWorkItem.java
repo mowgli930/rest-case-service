@@ -1,4 +1,4 @@
-package se.plughogskolan.model;
+package se.plughogskolan.restcaseservice.model;
 
 import se.plushogskolan.casemanagement.model.WorkItem.Status;
 
@@ -13,6 +13,18 @@ public class DTOWorkItem extends AbstractEntity {
 		this.description = description;
 		this.status = status;
 		this.user = user;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public DTOUser getUser() {
+		return user;
 	}
 	
 }

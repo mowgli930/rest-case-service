@@ -1,4 +1,4 @@
-package se.plughogskolan.model;
+package se.plughogskolan.restcaseservice.model;
 
 public class AbstractEntity {
 	
