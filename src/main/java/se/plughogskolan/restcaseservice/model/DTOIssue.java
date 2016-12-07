@@ -1,6 +1,6 @@
 package se.plughogskolan.restcaseservice.model;
 
-public final class DTOIssue extends AbstractEntity{
+public final class DTOIssue extends AbstractDTO{
 
 	private final DTOWorkItem workItem;
 

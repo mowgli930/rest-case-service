@@ -2,7 +2,7 @@ package se.plughogskolan.restcaseservice.model;
 
 import se.plushogskolan.casemanagement.model.WorkItem.Status;
 
-public class DTOWorkItem extends AbstractEntity {
+public class DTOWorkItem extends AbstractDTO {
 	
 	private final String description;
 	private final Status status;

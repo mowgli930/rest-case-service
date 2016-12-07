@@ -1,10 +1,10 @@
 package se.plughogskolan.restcaseservice.model;
 
-public class AbstractEntity {
+public abstract class AbstractDTO {
 	
 	private final Long id;
 	
-	public AbstractEntity(Long id) {
+	public AbstractDTO(Long id) {
 		this.id = id;
 	}
 	

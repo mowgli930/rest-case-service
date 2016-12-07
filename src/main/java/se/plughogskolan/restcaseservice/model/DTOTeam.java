@@ -2,7 +2,7 @@ package se.plughogskolan.restcaseservice.model;
 
 import java.util.Collection;
 
-public class DTOTeam extends AbstractEntity{
+public class DTOTeam extends AbstractDTO{
 
 	private String name;
 
