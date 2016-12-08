@@ -1,10 +1,6 @@
 package se.plushogskolan.restcaseservice.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import se.plushogskolan.casemanagement.model.User;
-import se.plushogskolan.casemanagement.model.WorkItem;
 
 public final class DTOUser extends AbstractDTO implements ModelConverter<User, DTOUser> {
 
