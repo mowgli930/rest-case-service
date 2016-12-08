@@ -15,8 +15,8 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import se.plughogskolan.restcaseservice.model.DTOUser;
 import se.plushogskolan.casemanagement.service.CaseService;
+import se.plushogskolan.restcaseservice.model.DTOUser;
 
 @Path("workitems")
 @Produces(MediaType.APPLICATION_JSON)
