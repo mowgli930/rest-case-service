@@ -65,6 +65,11 @@ public final class WorkItemResource {
 	}
 
 	@GET
+	public Response searchWorkItemDescription(@QueryParam("description") String description) {
+		//TODO implmement
+		return null;
+	}
+	@GET
 	public Response getWorkItemsWithIssue(@QueryParam("withissue") boolean withIssue) {
 		//TODO implement
 		return null;
