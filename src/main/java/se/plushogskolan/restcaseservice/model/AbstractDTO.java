@@ -1,4 +1,4 @@
-package se.plughogskolan.restcaseservice.model;
+package se.plushogskolan.restcaseservice.model;
 
 public abstract class AbstractDTO {
 	
