@@ -1,6 +1,5 @@
 package se.plushogskolan.restcaseservice.model;
 
-import se.plushogskolan.casemanagement.model.User;
 import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.casemanagement.model.WorkItem.Status;
 
@@ -8,13 +7,11 @@ public final class DTOWorkItem extends AbstractDTO implements ModelConverter<Wor
 
 	private final String description;
 	private final Status status;
-	private final DTOUser user;
 
-	public DTOWorkItem(Long id, String description, Status status, DTOUser user) {
+	public DTOWorkItem(Long id, String description, Status status) {
 		super(id);
 		this.description = description;
 		this.status = status;
-		this.user = user;
 	}
 
 	public String getDescription() {
@@ -23,35 +20,20 @@ public final class DTOWorkItem extends AbstractDTO implements ModelConverter<Wor
 	public Status getStatus() {
 		return status;
 	}
-	public DTOUser getUser() {
-		return user;
-	}
 
 	public static WorkItemBuilder builder(String description, Status status) {
 		return new WorkItemBuilder(description, status);
 	}
 	
-	@SuppressWarnings("null")
 	@Override
 	public DTOWorkItem toDTO(WorkItem entity) {
-		DTOUser dtoUser = null;
-		if(entity.getUser() != null) {
-			User user = entity.getUser();
-			dtoUser = dtoUser.toDTO(user);
-		}
 		return DTOWorkItem.builder(entity.getDescription(), entity.getStatus())
-				.setId(entity.getId()).setUser(dtoUser).build();
+				.setId(entity.getId()).build();
 	}
 
 	@Override
 	public WorkItem toEntity(DTOWorkItem dataTransferObject) {
-		User user = null;
-		if(dataTransferObject.getUser() != null) {
-			DTOUser dtoUser = dataTransferObject.getUser();
-			user = dtoUser.toEntity(dtoUser);
-		}
-		return new WorkItem(dataTransferObject.getDescription(), dataTransferObject.getStatus())
-				.setUser(user);
+		return new WorkItem(dataTransferObject.getDescription(), dataTransferObject.getStatus());
 	}
 
 	public static final class WorkItemBuilder {
@@ -60,7 +42,6 @@ public final class DTOWorkItem extends AbstractDTO implements ModelConverter<Wor
 		private final Status status;
 		//Optional
 		private Long id = null;
-		private DTOUser user = null;
 		
 		private WorkItemBuilder(String description, Status status) {
 			this.description = description;
@@ -71,12 +52,9 @@ public final class DTOWorkItem extends AbstractDTO implements ModelConverter<Wor
 			this.id = id;
 			return this;
 		}
-		public WorkItemBuilder setUser(DTOUser user) {
-			this.user = user;
-			return this;
-		}
+		
 		public DTOWorkItem build() {
-			return new DTOWorkItem(this.id, this.description, this.status, this.user);
+			return new DTOWorkItem(this.id, this.description, this.status);
 		}
 	}
 }
