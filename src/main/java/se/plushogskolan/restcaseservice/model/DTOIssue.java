@@ -1,18 +1,28 @@
 package se.plushogskolan.restcaseservice.model;
 
 import se.plushogskolan.casemanagement.model.Issue;
-import se.plushogskolan.casemanagement.model.WorkItem;
 
 public final class DTOIssue extends AbstractDTO implements ModelConverter<Issue, DTOIssue>{
 
-	private final DTOWorkItem workItem;
-
 	private final String description;
+	private DTOWorkItem dtoWorkItem;
 
-	public DTOIssue(DTOWorkItem workItem, String description, Long id) {
+	public DTOIssue(Long id, String description, DTOWorkItem dtoWorkItem) {
 		super(id);
-		this.workItem = workItem;
 		this.description = description;
+		this.dtoWorkItem = dtoWorkItem;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public DTOWorkItem getDtoWorkItem() {
+		return dtoWorkItem;
+	}
+	
+	public static DTOIssueBuilder builder(DTOWorkItem dtoWorkItem, String description){
+		return new DTOIssueBuilder(description, dtoWorkItem);
 	}
 
 	@Override
@@ -35,34 +45,44 @@ public final class DTOIssue extends AbstractDTO implements ModelConverter<Issue,
 		return result;
 	}
 
-	public DTOWorkItem getWorkitem() {
-		return workItem;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	@SuppressWarnings("null")
 	@Override
 	public DTOIssue toDTO(Issue entity) {
-		DTOWorkItem dtoWorkItem = null;
-		if(entity.getWorkitem() != null){
-			WorkItem wi = entity.getWorkitem();
-			dtoWorkItem = dtoWorkItem.toDTO(wi);
-		}
-		return new DTOIssue(dtoWorkItem, entity.getDescription(), entity.getId());
+		return DTOIssue.builder(dtoWorkItem.toDTO(entity.getWorkitem()), 
+								entity.getDescription()).build();
 	}
 
 	@Override
 	public Issue toEntity(DTOIssue dataTransferObject) {
-		WorkItem wi = null;
-	if(dataTransferObject.getWorkitem() != null){
-		DTOWorkItem dtoWorkItem = dataTransferObject.getWorkitem();
-		wi = dtoWorkItem.toEntity(dtoWorkItem);
+		Issue issue = new Issue(dtoWorkItem.toEntity(dataTransferObject.getDtoWorkItem()), 
+								dataTransferObject.getDescription());
+		return issue;
 	}
+	
+	public static final class DTOIssueBuilder{
 		
-		return new Issue(wi, dataTransferObject.getDescription());
+		private Long id = null;
+		private String description;
+		private DTOWorkItem dtoWorkItem;
+
+		public DTOIssueBuilder(String description, DTOWorkItem dtoWorkItem) {
+			this.description = description;
+			this.dtoWorkItem = dtoWorkItem;
+		}
+		
+		public DTOIssueBuilder setDescription(String description){
+			this.description = description;
+			return this;
+		}
+		
+		public DTOIssueBuilder setDTOWorkItem(DTOWorkItem dtoWorkItem){
+			this.dtoWorkItem = dtoWorkItem;
+			return this;
+		}
+		
+		public DTOIssue build(){
+			return new DTOIssue(id, description, dtoWorkItem);
+		}
+		
 	}
 	
 }
