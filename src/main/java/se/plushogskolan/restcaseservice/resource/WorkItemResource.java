@@ -1,5 +1,7 @@
 package se.plushogskolan.restcaseservice.resource;
 
+import java.net.URI;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -9,33 +11,38 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import se.plushogskolan.casemanagement.service.CaseService;
-import se.plushogskolan.restcaseservice.model.DTOUser;
+import se.plushogskolan.restcaseservice.model.DTOWorkItem;
+import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
 
 @Path("workitems")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public final class WorkItemResource {
-
-	@Autowired
-	private CaseService service;
+	
+	@Context
+	private UriInfo uriInfo;
+	
+	DTOWorkItemService service = new DTOWorkItemService();
 	
 	@POST
-	public Response addWorkItem(DTOUser user) {
-		//TODO implement
-		return null;
+	public Response addWorkItem(DTOWorkItem workItem) {
+		workItem = service.save(workItem);
+		URI location = uriInfo.getAbsolutePathBuilder()
+				.path(workItem.getId().toString())
+				.build();
+		return Response.created(location).build();
 	}
 	
 	@PUT
 	@Path("{id}")
 	public Response updateStatus(@QueryParam("status") String status) {
 		//TODO implement
+		
 		return null;
 	}
 	
@@ -69,6 +76,7 @@ public final class WorkItemResource {
 		//TODO implement
 		return null;
 	}
+	
 	@GET
 	public Response getWorkItemsWithIssue(@QueryParam("withissue") boolean withIssue) {
 		//TODO implement
