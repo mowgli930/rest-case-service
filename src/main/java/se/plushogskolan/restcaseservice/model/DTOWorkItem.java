@@ -26,6 +26,29 @@ public final class DTOWorkItem extends AbstractDTO implements ModelConverter<Wor
 	}
 	
 	@Override
+	public int hashCode() {
+		int result = 17;
+		result += 31 * this.getId();
+		result += 31 * description.hashCode();
+		result += 31 * status.hashCode();
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) 
+			return true;
+		else if(obj instanceof DTOWorkItem) {
+			DTOWorkItem other = (DTOWorkItem) obj;
+			return this.getId() == other.getId()
+					&& description.equals(other.getDescription())
+					&& status.equals(other.getStatus());
+		}
+		else
+			return false;
+	}
+	
+	@Override
 	public DTOWorkItem toDTO(WorkItem entity) {
 		return DTOWorkItem.builder(entity.getDescription(), entity.getStatus())
 				.setId(entity.getId()).build();
