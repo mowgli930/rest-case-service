@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.restcaseservice.model.DTOIssue;
+import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 import se.plushogskolan.restcaseservice.service.DTOIssueService;
 
 @Component
@@ -21,6 +22,7 @@ import se.plushogskolan.restcaseservice.service.DTOIssueService;
 public class IssueResource {
 
 	DTOIssueService service = new DTOIssueService();
+	DTOWorkItem wiTest;
 	
 	@POST
 	public Response addIssue(DTOIssue dtoIssue){
