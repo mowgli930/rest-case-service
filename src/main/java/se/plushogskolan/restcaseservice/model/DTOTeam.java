@@ -2,7 +2,7 @@ package se.plushogskolan.restcaseservice.model;
 
 import se.plushogskolan.casemanagement.model.Team;
 
-public class DTOTeam extends AbstractDTO implements ModelConverter<Team, DTOTeam>{
+public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, DTOTeam>{
 
 	private String name;
 
