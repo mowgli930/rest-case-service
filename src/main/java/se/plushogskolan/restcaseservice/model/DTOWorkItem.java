@@ -13,6 +13,12 @@ public final class DTOWorkItem extends AbstractDTO implements ModelConverter<Wor
 		this.description = description;
 		this.status = status;
 	}
+	
+	private DTOWorkItem() {
+		super(-1L);
+		this.description = null;
+		this.status = null;
+	}
 
 	public String getDescription() {
 		return description;
