@@ -37,5 +37,6 @@ public final class UserResource {
 
 		return Response.created(location).build();
 	}
+	
 
 }
