@@ -1,5 +1,7 @@
 package se.plushogskolan.restcaseservice.resource.reader;
 
-public class UserBodyReader {
+import javax.ws.rs.ext.MessageBodyReader;
+
+public class UserBodyReader implements MessageBodyReader<User> {
 
 }
