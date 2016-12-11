@@ -15,7 +15,7 @@ public final class DTOWorkItem extends AbstractDTO implements ModelConverter<Wor
 	}
 	
 	private DTOWorkItem() {
-		super(-1L);
+		super(null);
 		this.description = null;
 		this.status = null;
 	}
