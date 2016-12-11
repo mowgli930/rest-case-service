@@ -11,11 +11,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.model.User;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
-import se.plushogskolan.restcaseservice.service.DTUserService;
+import se.plushogskolan.restcaseservice.model.DTOUser;
+import se.plushogskolan.restcaseservice.service.DTOUserService;
 
 @Component
 @Path("users")
@@ -23,15 +25,16 @@ import se.plushogskolan.restcaseservice.service.DTUserService;
 @Consumes(MediaType.APPLICATION_JSON)
 public final class UserResource {
 
-	DTUserService userService = new DTUserService();
+	@Autowired
+	DTOUserService userService;
 
 	@Context
 	private UriInfo uriInfo;
 
 	@POST
-	public Response addUser(User user) throws ConflictException {
+	public Response addUser(DTOUser dtoUser) throws ConflictException {
 
-		User savedUser = userService.saveUser(user);
+		User savedUser = userService.saveUser(dtoUser);
 
 		URI location = uriInfo.getAbsolutePathBuilder().path(savedUser.getId().toString()).build();
 
