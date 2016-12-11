@@ -11,6 +11,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
@@ -23,17 +25,17 @@ public final class WorkItemResource {
 	@Context
 	private UriInfo uriInfo;
 	
-	DTOWorkItemService service = new DTOWorkItemService();
-	
-//	@Autowired
-//	CaseService service;
+	@Autowired
+	DTOWorkItemService service;
 	
 	@POST
 	public Response addWorkItem(DTOWorkItem dtoWorkItem) {
+		
 		WorkItem workItem = service.save(dtoWorkItem);
 		URI location = uriInfo.getAbsolutePathBuilder()
 				.path(workItem.getId().toString())
 				.build();
+		
 		return Response.created(location).build();
 	}
 

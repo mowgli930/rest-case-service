@@ -16,11 +16,16 @@ import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 @Component
 public class DTOWorkItemService {
 
+	private final CaseService service;
+	
 	@Autowired
-	CaseService service;
+	public DTOWorkItemService(CaseService service){
+		this.service = service;
+	}
 	
 	public WorkItem save(DTOWorkItem dtoWorkItem) {
-		WorkItem workItem = service.save(dtoWorkItem.toEntity(dtoWorkItem));
+		WorkItem workItem = dtoWorkItem.toEntity(dtoWorkItem);
+		workItem = service.save(workItem);
 		return workItem;
 	}
 

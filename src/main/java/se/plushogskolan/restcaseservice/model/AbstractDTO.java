@@ -10,6 +10,5 @@ public abstract class AbstractDTO {
 	
 	public Long getId() {
 		return this.id;
-	}
-	
+	}	
 }
