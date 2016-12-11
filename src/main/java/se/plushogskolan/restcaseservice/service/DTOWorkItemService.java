@@ -19,13 +19,9 @@ public class DTOWorkItemService {
 	@Autowired
 	CaseService service;
 	
-	public DTOWorkItem save(DTOWorkItem dtoWorkItem) {
-		if(service == null)
-			System.err.println("hahaha");
+	public WorkItem save(DTOWorkItem dtoWorkItem) {
 		WorkItem workItem = service.save(dtoWorkItem.toEntity(dtoWorkItem));
-		dtoWorkItem = dtoWorkItem.toDTO(workItem);
-		System.out.println(dtoWorkItem.getDescription());
-		return dtoWorkItem;
+		return workItem;
 	}
 
 	public DTOWorkItem updateStatusById(Long DTOWorkItemId, WorkItem.Status DTOWorkItemStatus) {
