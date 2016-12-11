@@ -10,6 +10,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.model.WorkItem;
+import se.plushogskolan.casemanagement.model.WorkItem.Status;
 import se.plushogskolan.casemanagement.service.CaseService;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 
@@ -29,43 +30,59 @@ public class DTOWorkItemService {
 		return workItem;
 	}
 
-	public DTOWorkItem updateStatusById(Long DTOWorkItemId, WorkItem.Status DTOWorkItemStatus) {
-		return null;
+	public WorkItem updateStatusById(Long workItemId, String status) {
+		Status workItemStatus = stringToStatus(status);
+		return service.updateStatusById(workItemId, workItemStatus);
 	}
 
-	public void deleteDTOWorkItem(Long DTOWorkItemId) {
+	public void deleteWorkItem(Long workItemId) {
+		service.deleteWorkItem(workItemId);
 		return;
 	}
 
-	public DTOWorkItem addDTOWorkItemToUser(Long DTOWorkItemId, Long userId) {
+	public WorkItem addWorkItemToUser(Long workItemId, Long userId) {
 		return null;
 	}
 
-	public Slice<DTOWorkItem> searchDTOWorkItemByDescription(String description, Pageable pageable) {
-		return null;
+	public List<WorkItem> searchWorkItemByDescription(String description, int page, int size) {
+		return service.searchWorkItemByDescription(description, page, size);
 	}
 
-	public Slice<DTOWorkItem> getDTOWorkItemsByStatus(WorkItem.Status DTOWorkItemStatus, Pageable pageable) {
-		return null;
+	public List<WorkItem> getWorkItemsByStatus(String status, int page, int size) {
+		Status workItemStatus = stringToStatus(status);
+		return service.getWorkItemsByStatus(workItemStatus, page, size);
 	}
 
-	public Slice<DTOWorkItem> getDTOWorkItemsByTeamId(Long teamId, Pageable pageable) {
-		return null;
+	public List<WorkItem> getWorkItemsByTeamId(Long teamId, int page, int size) {
+		return service.getWorkItemsByTeamId(teamId, page, size);
 	}
 
-	public Slice<DTOWorkItem> getDTOWorkItemsByUserId(Long userId, Pageable pageable) {
-		return null;
+	public List<WorkItem> getWorkItemsByUserId(Long userId, int page, int size) {
+		return service.getWorkItemsByUserId(userId, page, size);
 	}
 
-	public Slice<DTOWorkItem> getDTOWorkItemsWithIssue(Pageable pageable) {
+	public List<WorkItem> getWorkItemsWithIssue(int page, int size) {
+		return service.getWorkItemsWithIssue(page, size);
+	}
+	
+	public Page<WorkItem> getAllWorkItems(Pageable pageable) {
 		return null;
 	}
 	
-	public Page<DTOWorkItem> getAllDTOWorkItems(Pageable pageable) {
+	public List<WorkItem> getAllDoneWorkItemsBetween(LocalDate fromDate, LocalDate toDate) {
 		return null;
 	}
 	
-	public List<DTOWorkItem> getAllDoneDTOWorkItemsBetween(LocalDate fromDate, LocalDate toDate) {
-		return null;
+	private WorkItem.Status stringToStatus(String value) {
+		WorkItem.Status status = null;
+		
+		if(value.equals("done") || value.equals("DONE"))
+			status = WorkItem.Status.DONE;
+		else if(value.equals("unstarted") || value.equals("UNSTARTED"))
+			status = WorkItem.Status.UNSTARTED;
+		else if(value.equals("started") || value.equals("STARTED"))
+			status = WorkItem.Status.STARTED;
+		
+		return status;
 	}
 }
