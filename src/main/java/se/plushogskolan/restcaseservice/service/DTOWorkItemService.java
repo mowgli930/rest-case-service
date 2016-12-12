@@ -1,12 +1,8 @@
 package se.plushogskolan.restcaseservice.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.model.WorkItem;
@@ -69,9 +65,10 @@ public class DTOWorkItemService {
 		return service.getAllWorkItems(page, size);
 	}
 	
-	//TODO maybe implement
-//	public List<WorkItem> getAllDoneWorkItemsBetween(LocalDate fromDate, LocalDate toDate) {
-//		return null;
+	//TODO maybe implement, CaseService uses Date instead of LocalDate
+//	public List<WorkItem> getWorkItemsByPeriodAndStatus(String status, LocalDate fromDate, 
+//			LocalDate toDate, int page, int size) {
+//		return service.getWorkItemsByPeriodAndStatus(stringToStatus(status), fromDate, toDate, page, size);
 //	}
 	
 	private WorkItem.Status stringToStatus(String value) {
