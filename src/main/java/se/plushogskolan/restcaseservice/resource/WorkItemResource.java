@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
+import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.model.WorkItemRequestBean;
 import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
 
@@ -63,19 +64,23 @@ public final class WorkItemResource {
 	}
 	
 	@GET
-	public Collection<WorkItem> getWorkItems(@BeanParam WorkItemRequestBean request) {
+	public Collection<WorkItem> getWorkItems(@BeanParam WorkItemRequestBean request, @BeanParam PageRequestBean pageRequest) {
 		List<WorkItem> list = null;
+		int page = pageRequest.getPage();
+		int size = pageRequest.getSize();
 		
 		if(request.getStatus() != null)
-			list = service.getWorkItemsByStatus(request.getStatus(), 0, 10);
+			list = service.getWorkItemsByStatus(request.getStatus(), page, size);
 		else if(request.getUserId() != null)
-			list = service.getWorkItemsByUserId(request.getUserId(), 0, 10);
+			list = service.getWorkItemsByUserId(request.getUserId(), page, size);
 		else if(request.getTeamId() != null)
-			list = service.getWorkItemsByTeamId(request.getTeamId(), 0, 10);
+			list = service.getWorkItemsByTeamId(request.getTeamId(), page, size);
 		else if(request.getDescription() != null)
-			list = service.searchWorkItemByDescription(request.getDescription(), 0, 10);
+			list = service.searchWorkItemByDescription(request.getDescription(), page, size);
 		else if(request.isWithIssue())
-			list = service.getWorkItemsWithIssue(0, 10);
+			list = service.getWorkItemsWithIssue(page, size);
+		else
+			list = service.getAllWorkItems(page, size);
 		
 		return list;
 	}

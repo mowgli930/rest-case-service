@@ -65,13 +65,14 @@ public class DTOWorkItemService {
 		return service.getWorkItemsWithIssue(page, size);
 	}
 	
-	public Page<WorkItem> getAllWorkItems(Pageable pageable) {
-		return null;
+	public List<WorkItem> getAllWorkItems(int page, int size) {
+		return service.getAllWorkItems(page, size);
 	}
 	
-	public List<WorkItem> getAllDoneWorkItemsBetween(LocalDate fromDate, LocalDate toDate) {
-		return null;
-	}
+	//TODO maybe implement
+//	public List<WorkItem> getAllDoneWorkItemsBetween(LocalDate fromDate, LocalDate toDate) {
+//		return null;
+//	}
 	
 	private WorkItem.Status stringToStatus(String value) {
 		WorkItem.Status status = null;
