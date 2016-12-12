@@ -1,51 +1,63 @@
 package se.plushogskolan.restcaseservice.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import se.plushogskolan.casemanagement.exception.AlreadyPersistedException;
+import se.plushogskolan.casemanagement.exception.InternalErrorException;
 import se.plushogskolan.casemanagement.model.Issue;
 import se.plushogskolan.casemanagement.service.CaseService;
+import se.plushogskolan.restcaseservice.exception.ConflictException;
+import se.plushogskolan.restcaseservice.exception.WebInternalErrorException;
 import se.plushogskolan.restcaseservice.model.DTOIssue;
-import se.plushogskolan.restcaseservice.model.DTOWorkItem;
-import se.plushogskolan.casemanagement.model.WorkItem.Status;
 
 @Component
 public class DTOIssueService {
 	
+	private final CaseService service;
+	
 	@Autowired
-	CaseService service;
-	
-	//TODO Add a way to get the workitem and then add it to the issue
-	public DTOIssue save(DTOIssue dtoIssue, Long dtoWorkItemId){
-		
-		Issue issue = dtoIssue.toEntity(dtoIssue);
-		issue = service.save(issue);
-		return dtoIssue = dtoIssue.toDTO(issue);
+	public DTOIssueService(CaseService service){
+		this.service = service;
 	}
 	
-	public DTOIssue updateDescription(Long issueId, String description){
-		DTOIssue dtoIssue = new DTOIssue(-1L, "", new DTOWorkItem(-1L, "", Status.DONE));
-		Issue issue = service.updateIssueDescription(issueId, description);
-		return dtoIssue.toDTO(issue);
-	}
-	
-	public DTOIssue getIssue(Long dtoIssueId){
-		DTOIssue dtoIssue = new DTOIssue(-1L, "", new DTOWorkItem(-1L, "", Status.DONE));
-		Issue issue = service.getIssue(dtoIssueId);
-		return dtoIssue.toDTO(issue);
-	}
-	
-	public List<DTOIssue> getAllIssues(int page, int size){
-		DTOIssue dtoIssue = new DTOIssue(-1L, "", new DTOWorkItem(-1L, "", Status.DONE));
-		List<DTOIssue> dtoIssues = new ArrayList<>();
-		List<Issue> issues = service.getAllIssues(page, size);
-		for(Issue i : issues){
-			dtoIssues.add(dtoIssue.toDTO(i));
+	//TODO Add a way to get the workitem and then add it to the issue, lägg till catch om workitem inte hittas
+	public Issue save(DTOIssue dtoIssue, Long dtoWorkItemId){
+		try{
+			Issue issue = dtoIssue.toEntity(dtoIssue);
+			return service.save(issue);
+		}catch(AlreadyPersistedException e1) {
+			throw new ConflictException("Issue already exists");
+		}catch(InternalErrorException e2) {
+			throw new WebInternalErrorException("Server error");
 		}
-		return dtoIssues;
+		
+	}
+	
+	public Issue updateDescription(Long issueId, String description){
+		try{
+		return service.updateIssueDescription(issueId, description);
+		}catch(InternalErrorException e){
+			throw new WebInternalErrorException("Server error");
+		}
+	}
+	
+	public Issue getIssue(Long dtoIssueId){
+		try{
+			return service.getIssue(dtoIssueId);
+		}catch(InternalErrorException e){
+			throw new WebInternalErrorException("Server error");
+		}
+	}
+	
+	public List<Issue> getAllIssues(int page, int size){
+		try{
+		return service.getAllIssues(page, size);
+		}catch(InternalErrorException e){
+			throw new WebInternalErrorException("Server error");
+		}
 	}
 	
 }
