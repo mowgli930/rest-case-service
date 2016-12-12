@@ -19,7 +19,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 	
 	private DTOUser(){
 		super(null);
-		this.username = null;
+		this.username = "";
 		this.firstName = "";
 		this.lastName = "";
 		this.isActive = true;
