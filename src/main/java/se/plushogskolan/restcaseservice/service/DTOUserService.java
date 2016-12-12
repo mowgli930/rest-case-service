@@ -24,11 +24,10 @@ public class DTOUserService {
 		try {
 			return service.save(savedUser);
 		} catch (AlreadyPersistedException e1) {
-			throw new ConflictException("User already exists");
+			throw new ConflictException("Username already exists");
 		} catch (InternalErrorException e2) {
 			throw new WebInternalErrorException("Server error");
 		}
-
 	}
 
 }

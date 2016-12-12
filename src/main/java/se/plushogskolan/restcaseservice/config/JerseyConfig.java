@@ -12,8 +12,8 @@ public class JerseyConfig extends ResourceConfig {
 
 	public JerseyConfig() {
 		register(UserResource.class);
+//		register(WorkItemResource.class);
 		register(ConflictExceptionMapper.class);
-		register(WorkItemResource.class);
 //		register(IssueResource.class);
 //		register(DTOIssueService.class);
 	}
