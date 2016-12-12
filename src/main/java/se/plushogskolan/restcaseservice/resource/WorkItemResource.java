@@ -40,7 +40,7 @@ public final class WorkItemResource {
 	DTOWorkItemService service;
 	
 	@POST
-	public Response addWorkItem(DTOWorkItem dtoWorkItem) {
+	public Response saveWorkItem(DTOWorkItem dtoWorkItem) {
 		WorkItem workItem = service.save(dtoWorkItem);
 		URI location = uriInfo.getAbsolutePathBuilder()
 				.path(workItem.getId().toString())
@@ -48,7 +48,7 @@ public final class WorkItemResource {
 		
 		return Response.created(location).build();
 	}
-
+	
 	@PUT
 	@Path("{id}")
 	public Response updateStatus(@PathParam("id") Long id, @QueryParam("status") String status) {

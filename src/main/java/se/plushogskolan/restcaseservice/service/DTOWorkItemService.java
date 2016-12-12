@@ -127,8 +127,7 @@ public class DTOWorkItemService {
 			status = WorkItem.Status.UNSTARTED;
 		else if(value.equals("started") || value.equals("STARTED"))
 			status = WorkItem.Status.STARTED;
-		else
-			throw new NotFoundException(value + " is not a valid Status");
+
 		return status;
 	}
 }
