@@ -1,7 +1,5 @@
 package se.plushogskolan.restcaseservice.service;
 
-import static org.mockito.Mockito.calls;
-
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
@@ -45,27 +43,44 @@ public class DTOUserService {
 			throw new WebInternalErrorException("Server error");
 		}
 	}
-	
-	public User updateUserLastName(Long userId, String lastName){
-		try{
+
+	public User updateUserLastName(Long userId, String lastName) {
+		try {
 			return service.updateUserLastName(userId, lastName);
-		}catch (NotPersistedException e1) {
+		} catch (NotPersistedException e1) {
 			throw new NotFoundException("User does not exist");
-		}catch (InternalErrorException e) {
-			throw new WebInternalErrorException("Server error");
-		}
-	}
-	
-	public User updateUserUsername(Long userId, String username){
-		try{
-			return service.updateUserUsername(userId, username);
-		}catch (IllegalArgumentException e1) {
-			throw new BadRequestException("Username is not long enough");
-		}catch (NotPersistedException e2) {
-			throw new NotFoundException("User does not exist");
-		}catch (InternalErrorException e3) {
+		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("Server error");
 		}
 	}
 
+	public User updateUserUsername(Long userId, String username) {
+		try {
+			return service.updateUserUsername(userId, username);
+		} catch (IllegalArgumentException e1) {
+			throw new BadRequestException("Username is not long enough");
+		} catch (NotPersistedException e2) {
+			throw new NotFoundException("User does not exist");
+		} catch (InternalErrorException e3) {
+			throw new WebInternalErrorException("Server error");
+		} catch (AlreadyPersistedException e4) {
+			throw new ConflictException("Username already exists");
+		}
+	}
+
+	public User updateUserIsActive(Long userId, boolean isActive){
+		try{
+			if(isActive){
+				return service.activateUser(userId);
+			}else{
+				return service.inactivateUser(userId);
+			} 
+				
+			}catch (NotPersistedException e1) {
+				throw new NotFoundException("User does not exist");
+			}catch (InternalErrorException e2) {
+				throw new WebInternalErrorException("Server error");
+			}
+		}
 }
+

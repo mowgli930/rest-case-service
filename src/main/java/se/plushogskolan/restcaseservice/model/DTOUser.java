@@ -16,12 +16,12 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 		this.username = username;
 		this.isActive = isActive;
 	}
-	
-	private DTOUser(){
+
+	private DTOUser() {
 		super(null);
-		this.username = "";
-		this.firstName = "";
-		this.lastName = "";
+		this.username = null;
+		this.firstName = null;
+		this.lastName = null;
 		this.isActive = true;
 	}
 
@@ -41,7 +41,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 		return username;
 	}
 
-	public boolean isActive() {
+	public boolean getIsActive() {
 		return isActive;
 	}
 
@@ -74,24 +74,20 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 
 	@Override
 	public DTOUser toDTO(User entity) {
-		
-		DTOUserBuilder builder =  new DTOUserBuilder();
-		builder.setFirstName(entity.getFirstName())
-		.setLastName(entity.getLastName())
-		.setActive(entity.isActive())
-		.setId(entity.getId());
-	
+
+		DTOUserBuilder builder = new DTOUserBuilder();
+		builder.setFirstName(entity.getFirstName()).setLastName(entity.getLastName()).setIsActive(entity.isActive())
+				.setId(entity.getId());
+
 		return builder.build(entity.getUsername());
 	}
 
 	@Override
 	public User toEntity(DTOUser dataTransferObject) {
 
-		User user = new User(dataTransferObject.getUsername())
-		.setFirstName(dataTransferObject.getFirstName())
-		.setLastName(dataTransferObject.getLastName())
-		.setActive(dataTransferObject.isActive);
-		
+		User user = new User(dataTransferObject.getUsername()).setFirstName(dataTransferObject.getFirstName())
+				.setLastName(dataTransferObject.getLastName()).setActive(dataTransferObject.isActive);
+
 		return user;
 	}
 
@@ -101,7 +97,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 		private String firstName = "";
 		private String lastName = "";
 		private boolean isActive = true;
-	
+
 		private DTOUserBuilder() {
 			;
 		}
@@ -121,7 +117,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 			return this;
 		}
 
-		public DTOUserBuilder setActive(boolean isActive) {
+		public DTOUserBuilder setIsActive(boolean isActive) {
 			this.isActive = isActive;
 			return this;
 		}

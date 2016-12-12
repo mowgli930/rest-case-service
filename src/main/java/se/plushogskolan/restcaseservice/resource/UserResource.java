@@ -43,21 +43,22 @@ public final class UserResource {
 
 		return Response.created(location).build();
 	}
-	
+
 	@PUT
 	@Path("{id}")
-	public Response updateUserFirstName(@PathParam("id") Long id, DTOUser dtoUser){
-		
-		if(!dtoUser.getFirstName().isEmpty())
-			userService.updateUserFirstName(id, dtoUser.getFirstName());
-		
-		if(!dtoUser.getLastName().isEmpty())
-			userService.updateUserLastName(id, dtoUser.getLastName());
-		
-		if(!dtoUser.getUsername().isEmpty())
+	public Response updateUserFirstNameLastNameUsername(@PathParam("id") Long id, DTOUser dtoUser) {
+
+		if (dtoUser.getUsername() != null)
 			userService.updateUserUsername(id, dtoUser.getUsername());
-		
+
+		if (dtoUser.getFirstName() != null)
+			userService.updateUserFirstName(id, dtoUser.getFirstName());
+
+		if (dtoUser.getLastName() != null)
+			userService.updateUserLastName(id, dtoUser.getLastName());
+
+		userService.updateUserIsActive(id, dtoUser.getIsActive());
+
 		return Response.status(Status.NO_CONTENT).build();
 	}
-
 }
