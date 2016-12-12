@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
+import se.plushogskolan.restcaseservice.model.WorkItemRequestBean;
 import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
 
 @Path("workitems")
@@ -60,38 +62,47 @@ public final class WorkItemResource {
 		return Response.status(Status.NO_CONTENT).build();
 	}
 	
-	@GET
+//	@GET
 	public Collection<WorkItem> getWorkItemsByStatus(@QueryParam("status") String status) {
 		List<WorkItem> list = service.getWorkItemsByStatus(status, 0, 10);
 		return list;
 	}
 	
-	@GET
+//	@GET
 	public Collection<WorkItem> getWorkItemByTeamId(@QueryParam("teamId") Long teamId) {
 		List<WorkItem> list = service.getWorkItemsByTeamId(teamId, 0, 10);
 		return list;
 	}
 	
-	@GET
+//	@GET
 	public Collection<WorkItem> getWorkItemByUserId(@QueryParam("userId") Long userId) {
 		List<WorkItem> list = service.getWorkItemsByUserId(userId, 0, 10);
 		return list;
 	}
 
-	@GET
+//	@GET
 	public Collection<WorkItem> searchWorkItemDescription(@QueryParam("description") String description) {
 		List<WorkItem> list = service.searchWorkItemByDescription(description, 0, 10);
 		return list;
 	}
 	
-	@GET
+//	@GET
 	public Collection<WorkItem> getWorkItemsWithIssue(@QueryParam("withissue") boolean withIssue) {
+		List<WorkItem> list = null;
 		if(withIssue) {
-			List<WorkItem> list = service.getWorkItemsWithIssue(0, 10);
-			return list;
+			list = service.getWorkItemsWithIssue(0, 10);
 		}
-		else
-			return null;
+		return list;
+	}
+	
+	@GET
+	public Collection<WorkItem> getWorkItems(@BeanParam WorkItemRequestBean request) {
+		System.out.println(request.getStatus());
+		System.out.println(request.getTeamId());
+		System.out.println(request.getUserId());
+		System.out.println(request.getDescription());
+		System.out.println(request.isWithIssue());
+		return null;
 	}
 
 }
