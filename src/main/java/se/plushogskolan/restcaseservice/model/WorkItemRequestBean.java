@@ -2,22 +2,22 @@ package se.plushogskolan.restcaseservice.model;
 
 import javax.ws.rs.QueryParam;
 //TODO finalize everything
-public class WorkItemRequestBean {
+public final class WorkItemRequestBean {
 
 	@QueryParam("status")
-	String status;
+	private String status;
 	
 	@QueryParam("teamId")
-	Long teamId;
+	private Long teamId;
 	
 	@QueryParam("userId")
-	Long userId;
+	private Long userId;
 	
 	@QueryParam("description")
-	String description;
+	private String description;
 	
 	@QueryParam("withissue")
-	boolean withIssue;
+	private boolean withIssue;
 
 	public String getStatus() {
 		return status;
