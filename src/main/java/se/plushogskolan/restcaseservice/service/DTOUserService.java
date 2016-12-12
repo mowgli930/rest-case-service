@@ -1,5 +1,9 @@
 package se.plushogskolan.restcaseservice.service;
 
+import static org.mockito.Mockito.calls;
+
+import javax.ws.rs.NotFoundException;
+
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.exception.AlreadyPersistedException;
@@ -35,11 +39,32 @@ public class DTOUserService {
 		try {
 			return service.updateUserFirstName(userId, firstName);
 		} catch (NotPersistedException e1) {
-
+			throw new NotFoundException("User does not exist");
 		} catch (InternalErrorException e2) {
 			throw new WebInternalErrorException("Server error");
 		}
-
+	}
+	
+	public User updateUserLastName(Long userId, String lastName){
+		try{
+			return service.updateUserLastName(userId, lastName);
+		}catch (NotPersistedException e1) {
+			throw new NotFoundException("User does not exist");
+		}catch (InternalErrorException e) {
+			throw new WebInternalErrorException("Server error");
+		}
+	}
+	
+	public User updateUserUsername(Long userId, String username){
+		try{
+			return service.updateUserUsername(userId, username);
+		}catch (IllegalArgumentException e1) {
+			
+		}catch (NotPersistedException e2) {
+			throw new NotFoundException("User does not exist");
+		}catch (InternalErrorException e3) {
+			throw new WebInternalErrorException("Server error");
+		}
 	}
 
 }

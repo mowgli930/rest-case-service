@@ -4,11 +4,14 @@ import java.net.URI;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +44,20 @@ public final class UserResource {
 		return Response.created(location).build();
 	}
 	
+	@PUT
+	@Path("{id}")
+	public Response updateUserFirstName(@PathParam("id") Long id, DTOUser dtoUser){
+		
+		if(!dtoUser.getFirstName().isEmpty())
+			userService.updateUserFirstName(id, dtoUser.getFirstName());
+		
+		if(!dtoUser.getLastName().isEmpty())
+			userService.updateUserLastName(id, dtoUser.getLastName());
+		
+		
+		
+		
+		return Response.status(Status.NO_CONTENT).build();
+	}
 
 }

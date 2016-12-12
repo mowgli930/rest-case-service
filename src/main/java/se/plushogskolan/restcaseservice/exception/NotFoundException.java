@@ -1,14 +1,14 @@
 package se.plushogskolan.restcaseservice.exception;
 
-public class NotPersistedException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = -3090252089555397600L;
 	
-	public NotPersistedException(String message){
+	public NotFoundException(String message){
 		super(message);
 	}
 	
-	public NotPersistedException(String message, Exception e){
+	public NotFoundException(String message, Exception e){
 		super(message, e);
 	}
 
