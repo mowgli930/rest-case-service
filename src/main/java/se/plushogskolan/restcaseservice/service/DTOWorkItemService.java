@@ -13,6 +13,7 @@ import se.plushogskolan.casemanagement.exception.StatusConflictException;
 import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.casemanagement.model.WorkItem.Status;
 import se.plushogskolan.casemanagement.service.CaseService;
+import se.plushogskolan.restcaseservice.exception.BadRequestException;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
 import se.plushogskolan.restcaseservice.exception.NotFoundException;
 import se.plushogskolan.restcaseservice.exception.WebInternalErrorException;
@@ -136,7 +137,7 @@ public class DTOWorkItemService {
 		else if(value.equals("started") || value.equals("STARTED"))
 			status = WorkItem.Status.STARTED;
 		else
-			throw new NotFoundException(value + " is not a valid Status");
+			throw new BadRequestException(value + " is not a valid Status");
 		
 		return status;
 	}
