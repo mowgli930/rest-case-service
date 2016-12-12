@@ -7,9 +7,9 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 	private final String firstName;
 	private final String lastName;
 	private final String username;
-	private final boolean isActive;
+	private final Boolean isActive;
 
-	private DTOUser(Long id, String firstName, String lastName, String username, boolean isActive) {
+	private DTOUser(Long id, String firstName, String lastName, String username, Boolean isActive) {
 		super(id);
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -22,7 +22,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 		this.username = null;
 		this.firstName = null;
 		this.lastName = null;
-		this.isActive = true;
+		this.isActive = null;
 	}
 
 	public static DTOUserBuilder builder() {
@@ -41,7 +41,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 		return username;
 	}
 
-	public boolean getIsActive() {
+	public Boolean getIsActive() {
 		return isActive;
 	}
 
@@ -96,7 +96,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 		private Long id = null;
 		private String firstName = "";
 		private String lastName = "";
-		private boolean isActive = true;
+		private Boolean isActive = true;
 
 		private DTOUserBuilder() {
 			;
@@ -117,7 +117,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 			return this;
 		}
 
-		public DTOUserBuilder setIsActive(boolean isActive) {
+		public DTOUserBuilder setIsActive(Boolean isActive) {
 			this.isActive = isActive;
 			return this;
 		}

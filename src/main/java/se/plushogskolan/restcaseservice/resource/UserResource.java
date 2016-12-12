@@ -56,8 +56,8 @@ public final class UserResource {
 
 		if (dtoUser.getLastName() != null)
 			userService.updateUserLastName(id, dtoUser.getLastName());
-
-		userService.updateUserIsActive(id, dtoUser.getIsActive());
+		if (dtoUser.getIsActive() != null)
+			userService.updateUserIsActive(id, dtoUser.getIsActive());
 
 		return Response.status(Status.NO_CONTENT).build();
 	}
