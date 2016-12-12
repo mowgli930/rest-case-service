@@ -54,8 +54,8 @@ public final class UserResource {
 		if(!dtoUser.getLastName().isEmpty())
 			userService.updateUserLastName(id, dtoUser.getLastName());
 		
-		
-		
+		if(!dtoUser.getUsername().isEmpty())
+			userService.updateUserUsername(id, dtoUser.getUsername());
 		
 		return Response.status(Status.NO_CONTENT).build();
 	}

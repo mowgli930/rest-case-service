@@ -2,6 +2,7 @@ package se.plushogskolan.restcaseservice.service;
 
 import static org.mockito.Mockito.calls;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
 import org.springframework.stereotype.Component;
@@ -59,7 +60,7 @@ public class DTOUserService {
 		try{
 			return service.updateUserUsername(userId, username);
 		}catch (IllegalArgumentException e1) {
-			
+			throw new BadRequestException("Username is not long enough");
 		}catch (NotPersistedException e2) {
 			throw new NotFoundException("User does not exist");
 		}catch (InternalErrorException e3) {
