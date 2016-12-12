@@ -5,9 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import se.plushogskolan.casemanagement.exception.AlreadyPersistedException;
+import se.plushogskolan.casemanagement.exception.InternalErrorException;
+import se.plushogskolan.casemanagement.exception.NotPersistedException;
 import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.casemanagement.model.WorkItem.Status;
 import se.plushogskolan.casemanagement.service.CaseService;
+import se.plushogskolan.restcaseservice.exception.ConflictException;
+import se.plushogskolan.restcaseservice.exception.NotFoundException;
+import se.plushogskolan.restcaseservice.exception.WebInternalErrorException;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 
 @Component
@@ -22,47 +28,88 @@ public class DTOWorkItemService {
 	
 	public WorkItem save(DTOWorkItem dtoWorkItem) {
 		WorkItem workItem = dtoWorkItem.toEntity(dtoWorkItem);
-		workItem = service.save(workItem);
+		try {
+			workItem = service.save(workItem);
+		} catch(AlreadyPersistedException e) {
+			throw new ConflictException(e.getMessage());
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 		return workItem;
 	}
 
 	public WorkItem updateStatusById(Long workItemId, String status) {
 		Status workItemStatus = stringToStatus(status);
-		return service.updateStatusById(workItemId, workItemStatus);
+		try {
+			return service.updateStatusById(workItemId, workItemStatus);
+		} catch(NotPersistedException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 	}
 
 	public void deleteWorkItem(Long workItemId) {
-		service.deleteWorkItem(workItemId);
-		return;
+		try {
+			service.deleteWorkItem(workItemId);
+		} catch(NotPersistedException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 	}
 
 	public WorkItem addWorkItemToUser(Long workItemId, Long userId) {
-		return null;
+		return null; //TODO do
 	}
 
 	public List<WorkItem> searchWorkItemByDescription(String description, int page, int size) {
-		return service.searchWorkItemByDescription(description, page, size);
+		try {
+			return service.searchWorkItemByDescription(description, page, size);
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 	}
 
 	public List<WorkItem> getWorkItemsByStatus(String status, int page, int size) {
 		Status workItemStatus = stringToStatus(status);
-		return service.getWorkItemsByStatus(workItemStatus, page, size);
+		try {
+			return service.getWorkItemsByStatus(workItemStatus, page, size);
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 	}
 
 	public List<WorkItem> getWorkItemsByTeamId(Long teamId, int page, int size) {
-		return service.getWorkItemsByTeamId(teamId, page, size);
+		try {
+			return service.getWorkItemsByTeamId(teamId, page, size);
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 	}
 
 	public List<WorkItem> getWorkItemsByUserId(Long userId, int page, int size) {
-		return service.getWorkItemsByUserId(userId, page, size);
+		try {
+			return service.getWorkItemsByUserId(userId, page, size);
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 	}
 
 	public List<WorkItem> getWorkItemsWithIssue(int page, int size) {
-		return service.getWorkItemsWithIssue(page, size);
+		try {
+			return service.getWorkItemsWithIssue(page, size);
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 	}
 	
 	public List<WorkItem> getAllWorkItems(int page, int size) {
-		return service.getAllWorkItems(page, size);
+		try {
+			return service.getAllWorkItems(page, size);
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 	}
 	
 	//TODO maybe implement, CaseService uses Date instead of LocalDate
@@ -80,7 +127,8 @@ public class DTOWorkItemService {
 			status = WorkItem.Status.UNSTARTED;
 		else if(value.equals("started") || value.equals("STARTED"))
 			status = WorkItem.Status.STARTED;
-		
+		else
+			throw new NotFoundException(value + " is not a valid Status");
 		return status;
 	}
 }
