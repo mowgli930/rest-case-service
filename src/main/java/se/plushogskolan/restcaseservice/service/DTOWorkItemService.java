@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.exception.AlreadyPersistedException;
 import se.plushogskolan.casemanagement.exception.InternalErrorException;
+import se.plushogskolan.casemanagement.exception.NoSpaceException;
 import se.plushogskolan.casemanagement.exception.NotPersistedException;
+import se.plushogskolan.casemanagement.exception.StatusConflictException;
 import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.casemanagement.model.WorkItem.Status;
 import se.plushogskolan.casemanagement.service.CaseService;
@@ -60,7 +62,13 @@ public class DTOWorkItemService {
 	}
 
 	public WorkItem addWorkItemToUser(Long workItemId, Long userId) {
-		return null; //TODO do
+		try {
+			return service.addWorkItemToUser(workItemId, userId);
+		} catch(StatusConflictException | NoSpaceException e) {
+			throw new ConflictException(e.getMessage());
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
 	}
 
 	public List<WorkItem> searchWorkItemByDescription(String description, int page, int size) {
@@ -127,7 +135,9 @@ public class DTOWorkItemService {
 			status = WorkItem.Status.UNSTARTED;
 		else if(value.equals("started") || value.equals("STARTED"))
 			status = WorkItem.Status.STARTED;
-
+		else
+			throw new NotFoundException(value + " is not a valid Status");
+		
 		return status;
 	}
 }
