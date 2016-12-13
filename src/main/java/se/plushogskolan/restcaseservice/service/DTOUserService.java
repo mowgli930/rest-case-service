@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.exception.AlreadyPersistedException;
 import se.plushogskolan.casemanagement.exception.InternalErrorException;
+import se.plushogskolan.casemanagement.exception.NoSpaceException;
 import se.plushogskolan.casemanagement.exception.NotPersistedException;
 import se.plushogskolan.casemanagement.model.User;
 import se.plushogskolan.casemanagement.service.CaseService;
@@ -112,7 +113,18 @@ public class DTOUserService {
 			List<User> list = service.getUsersByTeam(teamId, page, size);
 
 			return userListToDTOUserList(list);
-		} catch (InternalErrorException e) {
+		} catch (InternalErrorException e1) {
+			throw new WebInternalErrorException("Server error");
+		}
+	}
+	
+	public User addUserToTeam(Long userId, Long teamId){
+		
+		try{
+			return service.addUserToTeam(userId, teamId);
+		}catch (NoSpaceException e1) {
+			throw new ConflictException("Team is full");
+		}catch (InternalErrorException e2) {
 			throw new WebInternalErrorException("Server error");
 		}
 	}

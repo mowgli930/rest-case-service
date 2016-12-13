@@ -104,5 +104,14 @@ public class TeamResource {
 
 		return Response.ok(dtoList).build();
 	}
+	
+	@PUT
+	@Path("{id}/users")
+	public Response addUserToTeam(DTOUser dtoUser, @PathParam("id") Long teamId){
+		
+		userService.addUserToTeam(dtoUser.getId(), teamId);
+		
+		return Response.noContent().build();
+	}
 
 }
