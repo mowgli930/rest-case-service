@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,23 +63,17 @@ public class TeamResource {
 
 	@PUT
 	@Path("{id}")
-	public Response updateTeam(@PathParam("id") Long teamId, @QueryParam("name") String name,
-			@QueryParam("activate") boolean activate) {
-		DTOTeam dtoTeam = new DTOTeam(-1L, "Dummy", true);
-		Team teamToUpdate = service.getTeam(teamId);
+	public Response updateTeam(@PathParam("id") Long teamId, DTOTeam dtoTeam) {
 
-		teamToUpdate.setName(name);
-		dtoTeam = dtoTeam.toDTO(teamToUpdate);
-		Team team = service.update(teamId, dtoTeam);
-
-		if (activate == true) {
-			team = service.activateTeam(teamId);
+		if (dtoTeam.getIsActive() != null) {
+			service.activateTeam(teamId, dtoTeam.getIsActive());
 		}
-		if (activate == false) {
-			team = service.inactivateTeam(teamId);
+		if(dtoTeam.getName() != null){
+			service.update(teamId, dtoTeam);
 		}
+		
 
-		return Response.ok(team).build();
+		return Response.status(Status.NO_CONTENT).build();
 	}
 
 	@GET
@@ -88,19 +83,13 @@ public class TeamResource {
 		return team;
 	}
 
-//	@GET
-//	public List<Team> searchTeamByName(@QueryParam("name") String name, @BeanParam PageRequestBean pageRequestBean) {
-//
-//		List<Team> teams = service.searchTeamByName(name, pageRequestBean.getPage(), pageRequestBean.getSize());
-//
-//		return teams;
-//	}
-//
-//	@GET
-//	public List<Team> getAllTeams(@BeanParam PageRequestBean pageRequestBean) {
-//		List<Team> teams = service.getAllTeams(pageRequestBean.getPage(), pageRequestBean.getSize());
-//		return teams;
-//	}
+	@GET
+	public List<Team> searchTeamByName(@QueryParam("name") String name, @BeanParam PageRequestBean pageRequestBean) {
+
+		List<Team> teams = service.searchTeamByName(name, pageRequestBean.getPage(), pageRequestBean.getSize());
+
+		return teams;
+	}
 
 	@GET
 	@Path("{id}/users")
@@ -123,7 +112,7 @@ public class TeamResource {
 		
 		userService.addUserToTeam(dtoUser.getId(), teamId);
 		
-		return Response.noContent().build();
+		return Response.status(Status.NO_CONTENT).build();
 	}
 
 }

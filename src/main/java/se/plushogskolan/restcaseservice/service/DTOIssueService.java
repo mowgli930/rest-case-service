@@ -2,11 +2,14 @@ package se.plushogskolan.restcaseservice.service;
 
 import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.exception.AlreadyPersistedException;
 import se.plushogskolan.casemanagement.exception.InternalErrorException;
+import se.plushogskolan.casemanagement.exception.NotPersistedException;
 import se.plushogskolan.casemanagement.model.Issue;
 import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.casemanagement.service.CaseService;
@@ -50,6 +53,8 @@ public class DTOIssueService {
 	public Issue getIssue(Long dtoIssueId){
 		try{
 			return service.getIssue(dtoIssueId);
+		}catch (NotPersistedException e1) {
+			throw new NotFoundException("Issue does not exist");
 		}catch(InternalErrorException e){
 			throw new WebInternalErrorException("Server error");
 		}
