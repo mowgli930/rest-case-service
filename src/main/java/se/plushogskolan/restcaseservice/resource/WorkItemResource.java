@@ -57,7 +57,7 @@ public final class WorkItemResource {
 	
 	@POST
 	@Path("{id}/issues")
-	public Response saveIssue(DTOIssue dtoIssue, Long workItemId){
+	public Response saveIssue(DTOIssue dtoIssue, @PathParam("id") Long workItemId){
 		WorkItem wi = service.getWorkItemById(workItemId);
 		Issue issue = issueService.save(dtoIssue, wi);
 		
