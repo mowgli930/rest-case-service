@@ -72,7 +72,7 @@ public final class WorkItemResource {
 	@Path("{id}")
 	public Response updateStatus(@PathParam("id") Long id, @QueryParam("status") String status) {
 		WorkItem workItem = service.updateStatusById(id, status);
-		return Response.ok(workItem).build();
+		return Response.ok(workItem).build();//TODO no content
 	}
 	
 	@DELETE
