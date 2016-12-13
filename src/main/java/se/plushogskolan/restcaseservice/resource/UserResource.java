@@ -1,6 +1,7 @@
 package se.plushogskolan.restcaseservice.resource;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -21,10 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.model.User;
+import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
 import se.plushogskolan.restcaseservice.model.DTOUser;
+import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.model.UsersRequestBean;
 import se.plushogskolan.restcaseservice.service.DTOUserService;
+import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
 
 @Component
 @Path("users")
@@ -34,6 +38,9 @@ public final class UserResource {
 
 	@Autowired
 	DTOUserService userService;
+	
+	@Autowired
+	DTOWorkItemService workItemService;
 
 	@Context
 	private UriInfo uriInfo;
@@ -81,5 +88,11 @@ public final class UserResource {
 				bean.getUsername(), bean.getPage(), bean.getSize());
 		
 		return Response.ok(list).build();
+	}
+	
+	@GET
+	@Path("{id}/workitems")
+	public Collection<WorkItem> getWorkItemsByUserId(@PathParam("id") Long id, @BeanParam PageRequestBean pageRequest) {
+		return workItemService.getWorkItemsByUserId(id, pageRequest.getPage(), pageRequest.getSize());
 	}
 }

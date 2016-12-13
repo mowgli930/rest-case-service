@@ -1,6 +1,7 @@
 package se.plushogskolan.restcaseservice.resource;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -21,12 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.model.Team;
+import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.restcaseservice.model.DTOTeam;
 import se.plushogskolan.restcaseservice.model.DTOUser;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.model.UsersRequestBean;
 import se.plushogskolan.restcaseservice.service.DTOTeamService;
 import se.plushogskolan.restcaseservice.service.DTOUserService;
+import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
 
 @Component
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
@@ -42,6 +45,9 @@ public class TeamResource {
 
 	@Autowired
 	DTOUserService userService;
+	
+	@Autowired
+	DTOWorkItemService workItemService;
 
 	@POST
 	public Response addTeam(DTOTeam dtoTeam) {
@@ -103,6 +109,12 @@ public class TeamResource {
 		List<DTOUser> dtoList = userService.getUsersByTeam(id, bean.getPage(), bean.getSize());
 
 		return Response.ok(dtoList).build();
+	}
+	
+	@GET
+	@Path("{id}/workitems")
+	public Collection<WorkItem> getWorkItemsByTeamId(@PathParam("id") Long id, @BeanParam PageRequestBean pageRequest) {
+		return workItemService.getWorkItemsByTeamId(id, pageRequest.getPage(), pageRequest.getSize());
 	}
 	
 	@PUT

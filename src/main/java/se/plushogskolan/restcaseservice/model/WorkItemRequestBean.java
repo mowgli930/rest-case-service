@@ -1,17 +1,11 @@
 package se.plushogskolan.restcaseservice.model;
 
 import javax.ws.rs.QueryParam;
-//TODO finalize everything
+
 public final class WorkItemRequestBean {
 
 	@QueryParam("status")
 	private String status;
-	
-	@QueryParam("teamId")
-	private Long teamId;
-	
-	@QueryParam("userId")
-	private Long userId;
 	
 	@QueryParam("description")
 	private String description;
@@ -21,14 +15,6 @@ public final class WorkItemRequestBean {
 
 	public String getStatus() {
 		return status;
-	}
-
-	public Long getTeamId() {
-		return teamId;
-	}
-
-	public Long getUserId() {
-		return userId;
 	}
 
 	public String getDescription() {

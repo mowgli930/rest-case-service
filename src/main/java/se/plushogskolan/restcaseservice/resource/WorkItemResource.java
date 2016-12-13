@@ -71,10 +71,6 @@ public final class WorkItemResource {
 		
 		if(request.getStatus() != null)
 			list = service.getWorkItemsByStatus(request.getStatus(), page, size);
-		else if(request.getUserId() != null)
-			list = service.getWorkItemsByUserId(request.getUserId(), page, size);
-		else if(request.getTeamId() != null)
-			list = service.getWorkItemsByTeamId(request.getTeamId(), page, size);
 		else if(request.getDescription() != null)
 			list = service.searchWorkItemByDescription(request.getDescription(), page, size);
 		else if(request.isWithIssue())
