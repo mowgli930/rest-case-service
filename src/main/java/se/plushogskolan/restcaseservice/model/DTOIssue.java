@@ -48,7 +48,7 @@ public final class DTOIssue extends AbstractDTO implements ModelConverter<Issue,
 	@Override
 	public DTOIssue toDTO(Issue entity) {
 		return DTOIssue.builder(dtoWorkItem.toDTO(entity.getWorkitem()), 
-								entity.getDescription()).build();
+								entity.getDescription()).setId(entity.getId()).build();
 	}
 
 	@Override
@@ -67,6 +67,11 @@ public final class DTOIssue extends AbstractDTO implements ModelConverter<Issue,
 		public DTOIssueBuilder(String description, DTOWorkItem dtoWorkItem) {
 			this.description = description;
 			this.dtoWorkItem = dtoWorkItem;
+		}
+		
+		public DTOIssueBuilder setId(Long id){
+			this.id = id;
+			return this;
 		}
 		
 		public DTOIssueBuilder setDescription(String description){

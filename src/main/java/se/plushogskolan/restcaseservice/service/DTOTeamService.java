@@ -1,5 +1,6 @@
 package se.plushogskolan.restcaseservice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,28 +55,42 @@ public class DTOTeamService {
 		}
 	}
 
-	public Team getTeam(Long dtoTeamId) {
+	public DTOTeam getTeam(Long dtoTeamId) {
 		try {
-			return service.getTeam(dtoTeamId);
+			return DTOTeam.builder("", true).build().toDTO(service.getTeam(dtoTeamId));
 		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("server error");
 		}
 	}
 
-	public List<Team> searchTeamByName(String name, int page, int size) {
+	public List<DTOTeam> searchTeamByName(String name, int page, int size) {
 		try {
-			return service.searchTeamByName(name, page, size);
+			
+			return teamListToDTOTeamList(service.searchTeamByName(name, page, size));
 		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("server error");
 		}
 	}
 
-	public List<Team> getAllTeams(int page, int size) {
+	public List<DTOTeam> getAllTeams(int page, int size) {
 		try {
-			return service.getAllTeams(page, size);
+			return teamListToDTOTeamList(service.getAllTeams(page, size));
 		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("server error");
 		}
+	}
+	
+	private List<DTOTeam> teamListToDTOTeamList(List<Team> list) {
+
+		List<DTOTeam> listDto = new ArrayList<>();
+
+		DTOTeam dtoTeam = DTOTeam.builder("", true).build();
+
+		for (Team user : list) {
+			listDto.add(dtoTeam.toDTO(user));
+		}
+
+		return listDto;
 	}
 
 }
