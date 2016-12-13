@@ -72,6 +72,10 @@ public class DTOWorkItemService {
 		}
 	}
 
+	public WorkItem getWorkItemById(Long id) {
+		return null;
+	}
+	
 	public List<WorkItem> searchWorkItemByDescription(String description, int page, int size) {
 		try {
 			return service.searchWorkItemByDescription(description, page, size);
