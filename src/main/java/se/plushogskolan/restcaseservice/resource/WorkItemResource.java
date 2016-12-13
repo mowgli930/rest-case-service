@@ -22,10 +22,13 @@ import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import se.plushogskolan.casemanagement.model.Issue;
 import se.plushogskolan.casemanagement.model.WorkItem;
+import se.plushogskolan.restcaseservice.model.DTOIssue;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.model.WorkItemRequestBean;
+import se.plushogskolan.restcaseservice.service.DTOIssueService;
 import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
 
 @Path("workitems")
@@ -39,11 +42,27 @@ public final class WorkItemResource {
 	@Autowired
 	DTOWorkItemService service;
 	
+	@Autowired
+	DTOIssueService issueService;
+	
 	@POST
 	public Response saveWorkItem(DTOWorkItem dtoWorkItem) {
 		WorkItem workItem = service.save(dtoWorkItem);
 		URI location = uriInfo.getAbsolutePathBuilder()
 				.path(workItem.getId().toString())
+				.build();
+		
+		return Response.created(location).build();
+	}
+	
+	@POST
+	@Path("{id}/issues")
+	public Response saveIssue(DTOIssue dtoIssue, Long workItemId){
+		WorkItem wi = service.getWorkItemsById(workItemId);
+		Issue issue = issueService.save(dtoIssue, wi);
+		
+		URI location = uriInfo.getAbsolutePathBuilder()
+				.path(issue.getId().toString())
 				.build();
 		
 		return Response.created(location).build();

@@ -1,13 +1,11 @@
 package se.plushogskolan.restcaseservice.resource;
 
 
-import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -22,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.model.Issue;
-import se.plushogskolan.restcaseservice.model.DTOIssue;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.service.DTOIssueService;
 
@@ -37,17 +34,6 @@ public class IssueResource {
 
 	@Autowired
 	DTOIssueService service;
-	
-	@POST
-	public Response addIssue(DTOIssue dtoIssue, Long workItemId){
-		Issue issue = service.save(dtoIssue, workItemId);
-		
-		URI location = uriInfo.getAbsolutePathBuilder()
-				.path(issue.getId().toString())
-				.build();
-		
-		return Response.created(location).build();
-	}
 	
 	@PUT
 	@Path("{id}")

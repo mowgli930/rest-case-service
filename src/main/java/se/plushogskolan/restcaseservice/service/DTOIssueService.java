@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import se.plushogskolan.casemanagement.exception.AlreadyPersistedException;
 import se.plushogskolan.casemanagement.exception.InternalErrorException;
 import se.plushogskolan.casemanagement.model.Issue;
+import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.casemanagement.service.CaseService;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
 import se.plushogskolan.restcaseservice.exception.WebInternalErrorException;
@@ -24,9 +25,11 @@ public class DTOIssueService {
 	}
 	
 	//TODO Add a way to get the workitem and then add it to the issue, lägg till catch om workitem inte hittas
-	public Issue save(DTOIssue dtoIssue, Long dtoWorkItemId){
+	public Issue save(DTOIssue dtoIssue, WorkItem workItem){
 		try{
+			
 			Issue issue = dtoIssue.toEntity(dtoIssue);
+			issue.setWorkItem(workItem);
 			return service.save(issue);
 		}catch(AlreadyPersistedException e1) {
 			throw new ConflictException("Issue already exists");
