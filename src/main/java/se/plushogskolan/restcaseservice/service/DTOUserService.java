@@ -100,16 +100,33 @@ public class DTOUserService {
 		try {
 			List<User> list = service.searchUsersByFirstNameLastNameUsername(firstName, lastName, username, page, size);
 
-			List<DTOUser> listDto = new ArrayList<>();
-
-			DTOUser dtoUser = DTOUser.builder().build("");
-
-			for (User user : list) {
-				listDto.add(dtoUser.toDTO(user));
-			}
-			return listDto;
+			return userListToDTOUserList(list);
 		} catch (InternalErrorException e1) {
 			throw new WebInternalErrorException("Server error");
 		}
+	}
+
+	public List<DTOUser> getUsersByTeam(Long teamId, int page, int size) {
+
+		try {
+			List<User> list = service.getUsersByTeam(teamId, page, size);
+
+			return userListToDTOUserList(list);
+		} catch (InternalErrorException e) {
+			throw new WebInternalErrorException("Server error");
+		}
+	}
+
+	private List<DTOUser> userListToDTOUserList(List<User> list) {
+
+		List<DTOUser> listDto = new ArrayList<>();
+
+		DTOUser dtoUser = DTOUser.builder().build("");
+
+		for (User user : list) {
+			listDto.add(dtoUser.toDTO(user));
+		}
+
+		return listDto;
 	}
 }

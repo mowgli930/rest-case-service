@@ -82,5 +82,4 @@ public final class UserResource {
 		
 		return Response.ok(list).build();
 	}
-
 }
