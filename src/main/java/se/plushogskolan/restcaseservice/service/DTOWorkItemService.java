@@ -71,7 +71,7 @@ public class DTOWorkItemService {
 			throw new WebInternalErrorException(e.getMessage());
 		}
 	}
-
+	
 	public List<WorkItem> searchWorkItemByDescription(String description, int page, int size) {
 		try {
 			return service.searchWorkItemByDescription(description, page, size);
@@ -84,6 +84,16 @@ public class DTOWorkItemService {
 		Status workItemStatus = stringToStatus(status);
 		try {
 			return service.getWorkItemsByStatus(workItemStatus, page, size);
+		} catch(InternalErrorException e) {
+			throw new WebInternalErrorException(e.getMessage());
+		}
+	}
+	
+	public WorkItem getWorkItemById(Long id) {
+		try {
+			return service.getWorkItemById(id);
+		} catch(NotPersistedException e) {
+			throw new NotFoundException(e.getMessage());
 		} catch(InternalErrorException e) {
 			throw new WebInternalErrorException(e.getMessage());
 		}
