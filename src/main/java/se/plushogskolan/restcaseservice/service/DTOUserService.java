@@ -13,6 +13,7 @@ import se.plushogskolan.casemanagement.service.CaseService;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
 import se.plushogskolan.restcaseservice.exception.WebInternalErrorException;
 import se.plushogskolan.restcaseservice.model.DTOUser;
+import se.plushogskolan.restcaseservice.model.DTOUser.DTOUserBuilder;
 
 @Component
 public class DTOUserService {
@@ -68,19 +69,27 @@ public class DTOUserService {
 		}
 	}
 
-	public User updateUserIsActive(Long userId, boolean isActive){
-		try{
-			if(isActive){
+	public User updateUserIsActive(Long userId, boolean isActive) {
+		try {
+			if (isActive) {
 				return service.activateUser(userId);
-			}else{
+			} else {
 				return service.inactivateUser(userId);
-			} 
-				
-			}catch (NotPersistedException e1) {
-				throw new NotFoundException("User does not exist");
-			}catch (InternalErrorException e2) {
-				throw new WebInternalErrorException("Server error");
 			}
-		}
-}
 
+		} catch (NotPersistedException e1) {
+			throw new NotFoundException("User does not exist");
+		} catch (InternalErrorException e2) {
+			throw new WebInternalErrorException("Server error");
+		}
+	}
+
+	public DTOUser getUser(Long userId) {
+
+		try {
+			return DTOUser.builder().build("").toDTO(service.getUser(userId));
+		} catch (NotPersistedException e) {
+			throw new NotFoundException("User does not exist");
+		}
+	}
+}

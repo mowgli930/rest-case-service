@@ -3,6 +3,7 @@ package se.plushogskolan.restcaseservice.resource;
 import java.net.URI;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -56,9 +57,18 @@ public final class UserResource {
 
 		if (dtoUser.getLastName() != null)
 			userService.updateUserLastName(id, dtoUser.getLastName());
+		
 		if (dtoUser.getIsActive() != null)
 			userService.updateUserIsActive(id, dtoUser.getIsActive());
 
 		return Response.status(Status.NO_CONTENT).build();
 	}
+	
+	@GET
+	@Path("{id}")
+	public Response getUser(@PathParam("id") Long id){
+	
+		return Response.ok(userService.getUser(id)).build();
+	}
+	
 }
