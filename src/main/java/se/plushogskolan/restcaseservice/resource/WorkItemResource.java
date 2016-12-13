@@ -58,7 +58,7 @@ public final class WorkItemResource {
 	@POST
 	@Path("{id}/issues")
 	public Response saveIssue(DTOIssue dtoIssue, Long workItemId){
-		WorkItem wi = service.getWorkItemsById(workItemId);
+		WorkItem wi = service.getWorkItemById(workItemId);
 		Issue issue = issueService.save(dtoIssue, wi);
 		
 		URI location = uriInfo.getAbsolutePathBuilder()
