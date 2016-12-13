@@ -2,19 +2,24 @@ package se.plushogskolan.restcaseservice.model;
 
 import se.plushogskolan.casemanagement.model.Team;
 
-public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, DTOTeam>{
+public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, DTOTeam> {
 
-	private String name;
+	private final String name;
+	private final Boolean active;
 
-	private boolean active;
-
-	public DTOTeam(Long id, String name, boolean active) {
+	public DTOTeam(Long id, String name, Boolean active) {
 		super(id);
 		this.active = active;
 		this.name = name;
 	}
-	
-	public static DTOTeamBuilder builder(String name, boolean active){
+
+	private DTOTeam() {
+		super(null);
+		name = null;
+		active = null;
+	}
+
+	public static DTOTeamBuilder builder(String name, boolean active) {
 		return new DTOTeamBuilder(name, active);
 	}
 
@@ -39,15 +44,14 @@ public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, D
 
 		if (other instanceof DTOTeam) {
 			DTOTeam otherTeam = (DTOTeam) other;
-			return name.equals(otherTeam.getName()) && active == otherTeam.isActive();
+			return name.equals(otherTeam.getName()) && active == otherTeam.getIsActive();
 		}
 		return false;
 	}
 
-	public boolean isActive() {
+	public Boolean getIsActive() {
 		return active;
 	}
-	
 
 	public String getName() {
 		return name;
@@ -63,31 +67,31 @@ public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, D
 		Team team = new Team(dataTransferObject.getName());
 		return team;
 	}
-	
-	public static final class DTOTeamBuilder{
-		
+
+	public static final class DTOTeamBuilder {
+
 		private Long id = null;
 		private String name;
-		private boolean active = true;
-		
-		private DTOTeamBuilder(String name, boolean active){
+		private Boolean active = true;
+
+		private DTOTeamBuilder(String name, Boolean active) {
 			this.name = name;
 			this.active = active;
 		}
-		
-		public DTOTeamBuilder setName(String name){
+
+		public DTOTeamBuilder setName(String name) {
 			this.name = name;
 			return this;
 		}
-		
-		public DTOTeamBuilder setActive(boolean active){
+
+		public DTOTeamBuilder setActive(Boolean active) {
 			this.active = active;
 			return this;
 		}
-		
-		public DTOTeam build(){
+
+		public DTOTeam build() {
 			return new DTOTeam(id, name, active);
 		}
 	}
-	
+
 }

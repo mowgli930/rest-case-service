@@ -42,17 +42,13 @@ public class DTOTeamService {
 		}
 	}
 
-	public Team inactivateTeam(Long dtoTeamId) {
+	public Team activateTeam(Long dtoTeamId, boolean isActive) {
 		try {
-			return service.inactivateTeam(dtoTeamId);
-		} catch (InternalErrorException e) {
-			throw new WebInternalErrorException("server error");
-		}
-	}
-
-	public Team activateTeam(Long dtoTeamId) {
-		try {
-			return service.activateTeam(dtoTeamId);
+			if(isActive){
+				return service.activateTeam(dtoTeamId);
+			}else {
+				return service.inactivateTeam(dtoTeamId);
+			}
 		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("server error");
 		}

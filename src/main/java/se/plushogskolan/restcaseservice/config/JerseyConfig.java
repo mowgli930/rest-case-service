@@ -22,7 +22,6 @@ public class JerseyConfig extends ResourceConfig {
 		register(ConflictExceptionMapper.class);
 		register(NotFoundExceptionMapper.class);
 		register(BadRequestExceptionMapper.class);
-//		register(DTOIssueService.class);
 	}
 
 }

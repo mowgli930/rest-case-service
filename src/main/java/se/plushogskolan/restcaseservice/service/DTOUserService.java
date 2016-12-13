@@ -93,6 +93,8 @@ public class DTOUserService {
 			return DTOUser.builder().build("").toDTO(service.getUser(userId));
 		} catch (NotPersistedException e1) {
 			throw new NotFoundException("User does not exist");
+		}catch (InternalErrorException e2) {
+			throw new WebInternalErrorException("Server error");
 		}
 	}
 
