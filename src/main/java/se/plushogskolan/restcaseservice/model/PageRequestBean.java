@@ -3,9 +3,7 @@ package se.plushogskolan.restcaseservice.model;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;
 
-import org.springframework.data.domain.PageRequest;
-
-public class PageRequestBean {
+public final class PageRequestBean {
 
 	@QueryParam("page")
 	@DefaultValue("0")
@@ -21,10 +19,6 @@ public class PageRequestBean {
 
 	public int getSize() {
 		return size;
-	}
-	
-	public PageRequest getPageRequest(){
-		return new PageRequest(page, size);
 	}
 
 }
