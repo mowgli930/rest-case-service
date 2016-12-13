@@ -1,7 +1,9 @@
 package se.plushogskolan.restcaseservice.resource;
 
 import java.net.URI;
+import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 import se.plushogskolan.casemanagement.model.User;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
 import se.plushogskolan.restcaseservice.model.DTOUser;
+import se.plushogskolan.restcaseservice.model.UsersRequestBean;
 import se.plushogskolan.restcaseservice.service.DTOUserService;
 
 @Component
@@ -57,18 +60,27 @@ public final class UserResource {
 
 		if (dtoUser.getLastName() != null)
 			userService.updateUserLastName(id, dtoUser.getLastName());
-		
+
 		if (dtoUser.getIsActive() != null)
 			userService.updateUserIsActive(id, dtoUser.getIsActive());
 
 		return Response.status(Status.NO_CONTENT).build();
 	}
-	
+
 	@GET
 	@Path("{id}")
-	public Response getUser(@PathParam("id") Long id){
-	
+	public Response getUser(@PathParam("id") Long id) {
+
 		return Response.ok(userService.getUser(id)).build();
 	}
-	
+
+	@GET
+	public Response searchUsers(@BeanParam UsersRequestBean bean) {
+
+		List<DTOUser> list = userService.searchUsersByFirstNameLastNameUsername(bean.getFirstName(), bean.getLastName(),
+				bean.getUsername(), bean.getPage(), bean.getSize());
+		
+		return Response.ok(list).build();
+	}
+
 }

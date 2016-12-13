@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>com.github.JoakimLandstrom</groupId>
 			<artifactId>Casemanagement---Spring</artifactId>
-			<version>f0e3b1c0da</version>
+			<version>4e373ac57c</version>
 		</dependency>
 
 	</dependencies>

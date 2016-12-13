@@ -1,5 +1,8 @@
 package se.plushogskolan.restcaseservice.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
@@ -13,7 +16,6 @@ import se.plushogskolan.casemanagement.service.CaseService;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
 import se.plushogskolan.restcaseservice.exception.WebInternalErrorException;
 import se.plushogskolan.restcaseservice.model.DTOUser;
-import se.plushogskolan.restcaseservice.model.DTOUser.DTOUserBuilder;
 
 @Component
 public class DTOUserService {
@@ -88,8 +90,26 @@ public class DTOUserService {
 
 		try {
 			return DTOUser.builder().build("").toDTO(service.getUser(userId));
-		} catch (NotPersistedException e) {
+		} catch (NotPersistedException e1) {
 			throw new NotFoundException("User does not exist");
+		}
+	}
+
+	public List<DTOUser> searchUsersByFirstNameLastNameUsername(String firstName, String lastName, String username,
+			int page, int size) {
+		try {
+			List<User> list = service.searchUsersByFirstNameLastNameUsername(firstName, lastName, username, page, size);
+
+			List<DTOUser> listDto = new ArrayList<>();
+
+			DTOUser dtoUser = DTOUser.builder().build("");
+
+			for (User user : list) {
+				listDto.add(dtoUser.toDTO(user));
+			}
+			return listDto;
+		} catch (InternalErrorException e1) {
+			throw new WebInternalErrorException("Server error");
 		}
 	}
 }
