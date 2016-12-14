@@ -1,5 +1,6 @@
 package se.plushogskolan.restcaseservice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.NotFoundException;
@@ -19,53 +20,58 @@ import se.plushogskolan.restcaseservice.model.DTOIssue;
 
 @Component
 public class DTOIssueService {
-	
+
 	private final CaseService service;
-	
+
 	@Autowired
-	public DTOIssueService(CaseService service){
+	public DTOIssueService(CaseService service) {
 		this.service = service;
 	}
-	
-	//TODO Add a way to get the workitem and then add it to the issue, lägg till catch om workitem inte hittas
-	public Issue save(DTOIssue dtoIssue, WorkItem workItem){
-		try{
-			
+
+	public Issue save(DTOIssue dtoIssue, WorkItem workItem) {
+		try {
+
 			Issue issue = dtoIssue.toEntity(dtoIssue);
 			issue.setWorkItem(workItem);
 			return service.save(issue);
-		}catch(AlreadyPersistedException e1) {
+		} catch (AlreadyPersistedException e1) {
 			throw new ConflictException("Issue already exists");
-		}catch(InternalErrorException e2) {
+		} catch (InternalErrorException e2) {
 			throw new WebInternalErrorException("Server error");
 		}
-		
+
 	}
-	
-	public Issue updateDescription(Long issueId, String description){
-		try{
-		return service.updateIssueDescription(issueId, description);
-		}catch(InternalErrorException e){
+
+	public Issue updateDescription(Long issueId, String description) {
+		try {
+			return service.updateIssueDescription(issueId, description);
+		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("Server error");
 		}
 	}
-	
-	public Issue getIssue(Long dtoIssueId){
-		try{
-			return service.getIssue(dtoIssueId);
-		}catch (NotPersistedException e1) {
+
+	public DTOIssue getIssue(Long dtoIssueId) {
+		try {
+			return DTOIssue.builder(null, "").build().toDTO(service.getIssue(dtoIssueId));
+		} catch (NotPersistedException e1) {
 			throw new NotFoundException("Issue does not exist");
-		}catch(InternalErrorException e){
+		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("Server error");
 		}
 	}
-	
-	public List<Issue> getAllIssues(int page, int size){
-		try{
-		return service.getAllIssues(page, size);
-		}catch(InternalErrorException e){
+
+	public List<DTOIssue> getAllIssues(int page, int size) {
+		try {
+			DTOIssue dtoIssue = DTOIssue.builder(null, "").build();
+			List<Issue> issues = service.getAllIssues(page, size);
+			List<DTOIssue> dtoIssues = new ArrayList<>();
+			for (Issue i : issues) {
+				dtoIssues.add(dtoIssue.toDTO(i));
+			}
+			return dtoIssues;
+		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("Server error");
 		}
 	}
-	
+
 }

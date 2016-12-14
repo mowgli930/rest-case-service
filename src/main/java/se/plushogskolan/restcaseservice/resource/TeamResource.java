@@ -78,15 +78,15 @@ public class TeamResource {
 
 	@GET
 	@Path("{id}")
-	public Team getTeamById(@PathParam("id") Long teamId) {
-		Team team = service.getTeam(teamId);
+	public DTOTeam getTeamById(@PathParam("id") Long teamId) {
+		DTOTeam team = service.getTeam(teamId);
 		return team;
 	}
 
 	@GET
-	public List<Team> searchTeamByName(@QueryParam("name") String name, @BeanParam PageRequestBean pageRequestBean) {
+	public List<DTOTeam> searchTeamByName(@QueryParam("name") String name, @BeanParam PageRequestBean pageRequestBean) {
 
-		List<Team> teams = service.searchTeamByName(name, pageRequestBean.getPage(), pageRequestBean.getSize());
+		List<DTOTeam> teams = service.searchTeamByName(name, pageRequestBean.getPage(), pageRequestBean.getSize());
 
 		return teams;
 	}

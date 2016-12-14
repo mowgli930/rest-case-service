@@ -48,7 +48,7 @@ public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, D
 		}
 		return false;
 	}
-
+	
 	public Boolean getIsActive() {
 		return active;
 	}
@@ -59,7 +59,7 @@ public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, D
 
 	@Override
 	public DTOTeam toDTO(Team entity) {
-		return DTOTeam.builder(entity.getName(), entity.isActive()).build();
+		return DTOTeam.builder(entity.getName(), entity.isActive()).setId(entity.getId()).build();
 	}
 
 	@Override
@@ -77,6 +77,11 @@ public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, D
 		private DTOTeamBuilder(String name, Boolean active) {
 			this.name = name;
 			this.active = active;
+		}
+		
+		public DTOTeamBuilder setId(Long id){
+			this.id = id;
+			return this;
 		}
 
 		public DTOTeamBuilder setName(String name) {

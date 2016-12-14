@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.model.Issue;
+import se.plushogskolan.restcaseservice.model.DTOIssue;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.service.DTOIssueService;
 
@@ -44,14 +45,14 @@ public class IssueResource {
 	
 	@GET
 	@Path("{id}")
-	public Issue getIssue(@PathParam("id") Long id){
-		Issue issue = service.getIssue(id);
+	public DTOIssue getIssue(@PathParam("id") Long id){
+		DTOIssue issue = service.getIssue(id);
 		return issue;
 	}
 	
 	@GET
-	public List<Issue> getAllIssues(@BeanParam PageRequestBean pageRequestBean){
-		List<Issue> issues = service.getAllIssues(pageRequestBean.getPage(), pageRequestBean.getSize());
+	public List<DTOIssue> getAllIssues(@BeanParam PageRequestBean pageRequestBean){
+		List<DTOIssue> issues = service.getAllIssues(pageRequestBean.getPage(), pageRequestBean.getSize());
 		return issues;
 	}
 	
