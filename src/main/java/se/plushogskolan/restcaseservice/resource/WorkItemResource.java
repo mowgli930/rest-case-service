@@ -1,13 +1,13 @@
 package se.plushogskolan.restcaseservice.resource;
 
 import java.net.URI;
-import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -72,7 +72,11 @@ public final class WorkItemResource {
 	@Path("{id}")
 	public Response updateStatus(@PathParam("id") Long id, @QueryParam("status") String status) {
 		WorkItem workItem = service.updateStatusById(id, status);
-		return Response.ok(workItem).build();//TODO no content
+		URI location = uriInfo.getAbsolutePathBuilder()
+				.path(workItem.getId().toString())
+				.build();
+
+		return Response.status(Status.NO_CONTENT).header("Location", location).build();
 	}
 	
 	@DELETE
@@ -83,7 +87,7 @@ public final class WorkItemResource {
 	}
 	
 	@GET
-	public Collection<WorkItem> getWorkItems(@BeanParam WorkItemRequestBean request, @BeanParam PageRequestBean pageRequest) {
+	public Response getWorkItems(@BeanParam WorkItemRequestBean request, @BeanParam PageRequestBean pageRequest) {
 		List<WorkItem> list = null;
 		int page = pageRequest.getPage();
 		int size = pageRequest.getSize();
@@ -97,7 +101,7 @@ public final class WorkItemResource {
 		else
 			list = service.getAllWorkItems(page, size);
 		
-		return list;
+		return Response.ok(list).build();
 	}
 
 }
