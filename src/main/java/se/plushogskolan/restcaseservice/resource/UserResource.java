@@ -1,7 +1,6 @@
 package se.plushogskolan.restcaseservice.resource;
 
 import java.net.URI;
-import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
