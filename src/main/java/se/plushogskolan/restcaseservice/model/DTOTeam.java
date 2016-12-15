@@ -65,6 +65,7 @@ public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, D
 	@Override
 	public Team toEntity(DTOTeam dataTransferObject) {
 		Team team = new Team(dataTransferObject.getName());
+		team.setActive(dataTransferObject.getIsActive());
 		return team;
 	}
 

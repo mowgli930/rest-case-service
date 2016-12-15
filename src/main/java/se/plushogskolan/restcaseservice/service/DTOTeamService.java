@@ -43,7 +43,7 @@ public class DTOTeamService {
 			return service.updateTeam(dtoTeamId, dtoTeam.toEntity(dtoTeam));
 		}catch (NotPersistedException e1) {
 			throw new NotFoundException("User does not exist");
-		} catch (InternalErrorException e) {
+		} catch (InternalErrorException e2) {
 			throw new WebInternalErrorException("server error");
 		}
 	}
@@ -55,7 +55,7 @@ public class DTOTeamService {
 			}else {
 				return service.inactivateTeam(dtoTeamId);
 			}
-		} catch (InternalErrorException e) {
+		} catch (InternalErrorException e1) {
 			throw new WebInternalErrorException("server error");
 		}
 	}
@@ -65,7 +65,7 @@ public class DTOTeamService {
 			return DTOTeam.builder("", true).build().toDTO(service.getTeam(dtoTeamId));
 		}catch (NotPersistedException e1) {
 			throw new NotFoundException("Team does not exist");
-		} catch (InternalErrorException e) {
+		} catch (InternalErrorException e2) {
 			throw new WebInternalErrorException("server error");
 		}
 	}
@@ -74,7 +74,7 @@ public class DTOTeamService {
 		try {
 			
 			return teamListToDTOTeamList(service.searchTeamByName(name, page, size));
-		}catch (InternalErrorException e) {
+		}catch (InternalErrorException e1) {
 			throw new WebInternalErrorException("server error");
 		}
 	}
@@ -82,7 +82,7 @@ public class DTOTeamService {
 	public List<DTOTeam> getAllTeams(int page, int size) {
 		try {
 			return teamListToDTOTeamList(service.getAllTeams(page, size));
-		} catch (InternalErrorException e) {
+		} catch (InternalErrorException e1) {
 			throw new WebInternalErrorException("server error");
 		}
 	}
