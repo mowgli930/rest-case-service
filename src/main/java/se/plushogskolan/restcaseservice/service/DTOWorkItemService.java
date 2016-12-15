@@ -30,7 +30,7 @@ public class DTOWorkItemService {
 	}
 	
 	public WorkItem save(DTOWorkItem dtoWorkItem) {
-		WorkItem workItem = dtoWorkItem.toEntity(dtoWorkItem);
+		WorkItem workItem = DTOWorkItem.toEntity(dtoWorkItem);
 		try {
 			workItem = service.save(workItem);
 		} catch(AlreadyPersistedException e) {
@@ -101,8 +101,7 @@ public class DTOWorkItemService {
 	
 	public DTOWorkItem getDTOWorkItemById(Long id) {
 		WorkItem workItem = getWorkItemById(id);
-		DTOWorkItem dtoWorkItem = null;
-		return dtoWorkItem.toDTO(workItem);
+		return DTOWorkItem.toDTO(workItem);
 	}
 
 	public List<WorkItem> getWorkItemsByTeamId(Long teamId, int page, int size) {
