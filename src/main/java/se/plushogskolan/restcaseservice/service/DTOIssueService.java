@@ -30,7 +30,6 @@ public class DTOIssueService {
 
 	public Issue save(DTOIssue dtoIssue, WorkItem workItem) {
 		try {
-
 			Issue issue = dtoIssue.toEntity(dtoIssue);
 			issue.setWorkItem(workItem);
 			return service.save(issue);
@@ -45,6 +44,8 @@ public class DTOIssueService {
 	public Issue updateDescription(Long issueId, String description) {
 		try {
 			return service.updateIssueDescription(issueId, description);
+		}catch (NotPersistedException e1) {
+			throw new NotFoundException("User does not exist");
 		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("Server error");
 		}

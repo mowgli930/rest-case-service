@@ -3,11 +3,14 @@ package se.plushogskolan.restcaseservice.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.plushogskolan.casemanagement.exception.AlreadyPersistedException;
 import se.plushogskolan.casemanagement.exception.InternalErrorException;
+import se.plushogskolan.casemanagement.exception.NotPersistedException;
 import se.plushogskolan.casemanagement.model.Team;
 import se.plushogskolan.casemanagement.service.CaseService;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
@@ -38,6 +41,8 @@ public class DTOTeamService {
 	public Team update(Long dtoTeamId, DTOTeam dtoTeam) {
 		try {
 			return service.updateTeam(dtoTeamId, dtoTeam.toEntity(dtoTeam));
+		}catch (NotPersistedException e1) {
+			throw new NotFoundException("User does not exist");
 		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("server error");
 		}
@@ -58,6 +63,8 @@ public class DTOTeamService {
 	public DTOTeam getTeam(Long dtoTeamId) {
 		try {
 			return DTOTeam.builder("", true).build().toDTO(service.getTeam(dtoTeamId));
+		}catch (NotPersistedException e1) {
+			throw new NotFoundException("Team does not exist");
 		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("server error");
 		}
@@ -67,7 +74,7 @@ public class DTOTeamService {
 		try {
 			
 			return teamListToDTOTeamList(service.searchTeamByName(name, page, size));
-		} catch (InternalErrorException e) {
+		}catch (InternalErrorException e) {
 			throw new WebInternalErrorException("server error");
 		}
 	}

@@ -5,18 +5,18 @@ import se.plushogskolan.casemanagement.model.Team;
 public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, DTOTeam> {
 
 	private final String name;
-	private final Boolean active;
+	private final Boolean isActive;
 
 	public DTOTeam(Long id, String name, Boolean active) {
 		super(id);
-		this.active = active;
+		this.isActive = active;
 		this.name = name;
 	}
 
 	private DTOTeam() {
 		super(null);
 		name = null;
-		active = null;
+		isActive = null;
 	}
 
 	public static DTOTeamBuilder builder(String name, boolean active) {
@@ -44,13 +44,13 @@ public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, D
 
 		if (other instanceof DTOTeam) {
 			DTOTeam otherTeam = (DTOTeam) other;
-			return name.equals(otherTeam.getName()) && active == otherTeam.getIsActive();
+			return name.equals(otherTeam.getName()) && isActive == otherTeam.getIsActive();
 		}
 		return false;
 	}
 	
 	public Boolean getIsActive() {
-		return active;
+		return isActive;
 	}
 
 	public String getName() {

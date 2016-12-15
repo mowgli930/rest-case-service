@@ -93,11 +93,11 @@ public class TeamResource {
 
 	@GET
 	@Path("{id}/users")
-	public Response getUsersByTeam(@BeanParam UsersRequestBean bean, @PathParam("id") Long id) {
+	public List<DTOUser> getUsersByTeam(@BeanParam UsersRequestBean bean, @PathParam("id") Long id) {
 
 		List<DTOUser> dtoList = userService.getUsersByTeam(id, bean.getPage(), bean.getSize());
 
-		return Response.ok(dtoList).build();
+		return dtoList;
 	}
 	
 	@GET
