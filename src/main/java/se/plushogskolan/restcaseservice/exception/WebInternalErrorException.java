@@ -4,7 +4,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response;
 
-public class WebInternalErrorException extends WebApplicationException {
+public final class WebInternalErrorException extends WebApplicationException {
 
 	private static final long serialVersionUID = 5663992927260108902L;
 
