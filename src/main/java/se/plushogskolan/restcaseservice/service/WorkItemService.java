@@ -20,12 +20,12 @@ import se.plushogskolan.restcaseservice.exception.WebInternalErrorException;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 
 @Component
-public class DTOWorkItemService {
+public class WorkItemService {
 
 	private final CaseService service;
 	
 	@Autowired
-	public DTOWorkItemService(CaseService service){
+	public WorkItemService(CaseService service){
 		this.service = service;
 	}
 	

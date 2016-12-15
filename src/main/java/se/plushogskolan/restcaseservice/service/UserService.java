@@ -20,11 +20,11 @@ import se.plushogskolan.restcaseservice.model.DTOUser;
 import static se.plushogskolan.restcaseservice.model.DTOUser.*;
 
 @Component
-public class DTOUserService {
+public class UserService {
 
 	private final CaseService service;
 
-	public DTOUserService(CaseService service) {
+	public UserService(CaseService service) {
 		this.service = service;
 	}
 

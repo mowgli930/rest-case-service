@@ -27,7 +27,7 @@ import se.plushogskolan.restcaseservice.model.DTOIssue;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.model.WorkItemRequestBean;
-import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
+import se.plushogskolan.restcaseservice.service.WorkItemService;
 import se.plushogskolan.restcaseservice.service.IssueService;
 
 @Path("workitems")
@@ -39,7 +39,7 @@ public final class WorkItemResource {
 	private UriInfo uriInfo;
 	
 	@Autowired
-	private DTOWorkItemService workItemService;
+	private WorkItemService workItemService;
 	
 	@Autowired
 	private IssueService issueService;

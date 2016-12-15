@@ -27,8 +27,8 @@ import se.plushogskolan.restcaseservice.exception.ConflictException;
 import se.plushogskolan.restcaseservice.model.DTOUser;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.model.UsersRequestBean;
-import se.plushogskolan.restcaseservice.service.DTOUserService;
-import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
+import se.plushogskolan.restcaseservice.service.UserService;
+import se.plushogskolan.restcaseservice.service.WorkItemService;
 
 @Component
 @Path("users")
@@ -37,10 +37,10 @@ import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
 public final class UserResource {
 
 	@Autowired
-	private DTOUserService userService;
+	private UserService userService;
 
 	@Autowired
-	private DTOWorkItemService workItemService;
+	private WorkItemService workItemService;
 
 	@Context
 	private UriInfo uriInfo;

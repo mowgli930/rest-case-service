@@ -18,12 +18,12 @@ import se.plushogskolan.restcaseservice.exception.WebInternalErrorException;
 import se.plushogskolan.restcaseservice.model.DTOTeam;
 
 @Component
-public class DTOTeamService {
+public class TeamService {
 
 	private final CaseService service;
 
 	@Autowired
-	public DTOTeamService(CaseService service) {
+	public TeamService(CaseService service) {
 		this.service = service;
 	}
 
