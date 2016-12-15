@@ -28,7 +28,7 @@ import se.plushogskolan.restcaseservice.model.DTOIssue;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.model.WorkItemRequestBean;
-import se.plushogskolan.restcaseservice.service.DTOIssueService;
+import se.plushogskolan.restcaseservice.service.IssueService;
 import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
 
 @Path("workitems")
@@ -43,7 +43,7 @@ public final class WorkItemResource {
 	DTOWorkItemService service;
 	
 	@Autowired
-	DTOIssueService issueService;
+	IssueService issueService;
 	
 	@POST
 	public Response saveWorkItem(DTOWorkItem dtoWorkItem) {
