@@ -31,7 +31,7 @@ public class IssueService {
 	public Issue save(DTOIssue dtoIssue, Long workItemId) {
 		try {
 			WorkItem wi = service.getWorkItemById(workItemId);
-			Issue issue = dtoIssue.toEntity(dtoIssue);
+			Issue issue = DTOIssue.toEntity(dtoIssue);
 			issue.setWorkItem(wi);
 			return service.save(issue);
 		} catch (AlreadyPersistedException e1) {
@@ -54,7 +54,7 @@ public class IssueService {
 
 	public DTOIssue getIssue(Long dtoIssueId) {
 		try {
-			return DTOIssue.builder(null, "").build().toDTO(service.getIssue(dtoIssueId));
+			return DTOIssue.toDTO(service.getIssue(dtoIssueId));
 		} catch (NotPersistedException e1) {
 			throw new NotFoundException("Issue does not exist");
 		} catch (InternalErrorException e) {
@@ -64,11 +64,10 @@ public class IssueService {
 
 	public List<DTOIssue> getAllIssues(int page, int size) {
 		try {
-			DTOIssue dtoIssue = DTOIssue.builder(null, "").build();
 			List<Issue> issues = service.getAllIssues(page, size);
 			List<DTOIssue> dtoIssues = new ArrayList<>();
 			for (Issue i : issues) {
-				dtoIssues.add(dtoIssue.toDTO(i));
+				dtoIssues.add(DTOIssue.toDTO(i));
 			}
 			return dtoIssues;
 		} catch (InternalErrorException e) {

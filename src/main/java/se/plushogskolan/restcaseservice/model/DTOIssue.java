@@ -2,7 +2,7 @@ package se.plushogskolan.restcaseservice.model;
 
 import se.plushogskolan.casemanagement.model.Issue;
 
-public final class DTOIssue extends AbstractDTO implements ModelConverter<Issue, DTOIssue>{
+public final class DTOIssue extends AbstractDTO{
 
 	private final String description;
 	private DTOWorkItem dtoWorkItem;
@@ -45,15 +45,13 @@ public final class DTOIssue extends AbstractDTO implements ModelConverter<Issue,
 		return result;
 	}
 
-	@Override
-	public DTOIssue toDTO(Issue entity) {
-		return DTOIssue.builder(dtoWorkItem.toDTO(entity.getWorkitem()), 
+	public static DTOIssue toDTO(Issue entity) {
+		return DTOIssue.builder(DTOWorkItem.toDTO(entity.getWorkitem()), 
 								entity.getDescription()).setId(entity.getId()).build();
 	}
 
-	@Override
-	public Issue toEntity(DTOIssue dataTransferObject) {
-		Issue issue = new Issue(dtoWorkItem.toEntity(dataTransferObject.getDtoWorkItem()), 
+	public static Issue toEntity(DTOIssue dataTransferObject) {
+		Issue issue = new Issue(DTOWorkItem.toEntity(dataTransferObject.getDtoWorkItem()), 
 								dataTransferObject.getDescription());
 		return issue;
 	}

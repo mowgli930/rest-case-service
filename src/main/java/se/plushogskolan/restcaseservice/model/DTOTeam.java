@@ -2,7 +2,7 @@ package se.plushogskolan.restcaseservice.model;
 
 import se.plushogskolan.casemanagement.model.Team;
 
-public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, DTOTeam> {
+public final class DTOTeam extends AbstractDTO{
 
 	private final String name;
 	private final Boolean isActive;
@@ -57,13 +57,11 @@ public final class DTOTeam extends AbstractDTO implements ModelConverter<Team, D
 		return name;
 	}
 
-	@Override
-	public DTOTeam toDTO(Team entity) {
+	public static DTOTeam toDTO(Team entity) {
 		return DTOTeam.builder(entity.getName(), entity.isActive()).setId(entity.getId()).build();
 	}
 
-	@Override
-	public Team toEntity(DTOTeam dataTransferObject) {
+	public static Team toEntity(DTOTeam dataTransferObject) {
 		Team team = new Team(dataTransferObject.getName());
 		team.setActive(dataTransferObject.getIsActive());
 		return team;

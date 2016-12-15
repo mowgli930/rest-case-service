@@ -29,8 +29,7 @@ public class DTOTeamService {
 
 	public Team save(DTOTeam dtoTeam) {
 		try {
-			Team team = dtoTeam.toEntity(dtoTeam);
-			return service.save(team);
+			return service.save(DTOTeam.toEntity(dtoTeam));
 		} catch (AlreadyPersistedException e1) {
 			throw new ConflictException("Team already exists");
 		} catch (InternalErrorException e2) {
@@ -40,8 +39,8 @@ public class DTOTeamService {
 
 	public Team update(Long dtoTeamId, DTOTeam dtoTeam) {
 		try {
-			return service.updateTeam(dtoTeamId, dtoTeam.toEntity(dtoTeam));
-		}catch (NotPersistedException e1) {
+			return service.updateTeam(dtoTeamId, DTOTeam.toEntity(dtoTeam));
+		} catch (NotPersistedException e1) {
 			throw new NotFoundException("User does not exist");
 		} catch (InternalErrorException e2) {
 			throw new WebInternalErrorException("server error");
@@ -50,9 +49,9 @@ public class DTOTeamService {
 
 	public Team activateTeam(Long dtoTeamId, boolean isActive) {
 		try {
-			if(isActive){
+			if (isActive) {
 				return service.activateTeam(dtoTeamId);
-			}else {
+			} else {
 				return service.inactivateTeam(dtoTeamId);
 			}
 		} catch (InternalErrorException e1) {
@@ -62,8 +61,8 @@ public class DTOTeamService {
 
 	public DTOTeam getTeam(Long dtoTeamId) {
 		try {
-			return DTOTeam.builder("", true).build().toDTO(service.getTeam(dtoTeamId));
-		}catch (NotPersistedException e1) {
+			return DTOTeam.toDTO(service.getTeam(dtoTeamId));
+		} catch (NotPersistedException e1) {
 			throw new NotFoundException("Team does not exist");
 		} catch (InternalErrorException e2) {
 			throw new WebInternalErrorException("server error");
@@ -72,9 +71,8 @@ public class DTOTeamService {
 
 	public List<DTOTeam> searchTeamByName(String name, int page, int size) {
 		try {
-			
 			return teamListToDTOTeamList(service.searchTeamByName(name, page, size));
-		}catch (InternalErrorException e1) {
+		} catch (InternalErrorException e1) {
 			throw new WebInternalErrorException("server error");
 		}
 	}
@@ -86,15 +84,11 @@ public class DTOTeamService {
 			throw new WebInternalErrorException("server error");
 		}
 	}
-	
+
 	private List<DTOTeam> teamListToDTOTeamList(List<Team> list) {
-
 		List<DTOTeam> listDto = new ArrayList<>();
-
-		DTOTeam dtoTeam = DTOTeam.builder("", true).build();
-
 		for (Team user : list) {
-			listDto.add(dtoTeam.toDTO(user));
+			listDto.add(DTOTeam.toDTO(user));
 		}
 
 		return listDto;
