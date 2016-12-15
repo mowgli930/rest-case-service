@@ -3,7 +3,7 @@ package se.plushogskolan.restcaseservice.model;
 import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.casemanagement.model.WorkItem.Status;
 
-public final class DTOWorkItem extends AbstractDTO implements ModelConverter<WorkItem, DTOWorkItem> {
+public final class DTOWorkItem extends AbstractDTO {
 
 	private final String description;
 	private final Status status;
@@ -54,14 +54,12 @@ public final class DTOWorkItem extends AbstractDTO implements ModelConverter<Wor
 			return false;
 	}
 	
-	@Override
-	public DTOWorkItem toDTO(WorkItem entity) {
+	public static DTOWorkItem toDTO(WorkItem entity) {
 		return DTOWorkItem.builder(entity.getDescription(), entity.getStatus())
 				.setId(entity.getId()).build();
 	}
 
-	@Override
-	public WorkItem toEntity(DTOWorkItem dataTransferObject) {
+	public static WorkItem toEntity(DTOWorkItem dataTransferObject) {
 		return new WorkItem(dataTransferObject.getDescription(), dataTransferObject.getStatus());
 	}
 
