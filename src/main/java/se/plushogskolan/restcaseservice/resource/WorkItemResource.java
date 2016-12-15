@@ -7,7 +7,6 @@ import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -28,8 +27,8 @@ import se.plushogskolan.restcaseservice.model.DTOIssue;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.model.WorkItemRequestBean;
-import se.plushogskolan.restcaseservice.service.IssueService;
 import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
+import se.plushogskolan.restcaseservice.service.IssueService;
 
 @Path("workitems")
 @Produces(MediaType.APPLICATION_JSON)
@@ -40,14 +39,14 @@ public final class WorkItemResource {
 	private UriInfo uriInfo;
 	
 	@Autowired
-	DTOWorkItemService service;
+	private DTOWorkItemService workItemService;
 	
 	@Autowired
-	IssueService issueService;
+	private IssueService issueService;
 	
 	@POST
 	public Response saveWorkItem(DTOWorkItem dtoWorkItem) {
-		WorkItem workItem = service.save(dtoWorkItem);
+		WorkItem workItem = workItemService.save(dtoWorkItem);
 		URI location = uriInfo.getAbsolutePathBuilder()
 				.path(workItem.getId().toString())
 				.build();
@@ -70,7 +69,7 @@ public final class WorkItemResource {
 	@PUT
 	@Path("{id}")
 	public Response updateStatus(@PathParam("id") Long id, @QueryParam("status") String status) {
-		WorkItem workItem = service.updateStatusById(id, status);
+		WorkItem workItem = workItemService.updateStatusById(id, status);
 		URI location = uriInfo.getAbsolutePathBuilder()
 				.path(workItem.getId().toString())
 				.build();
@@ -81,14 +80,14 @@ public final class WorkItemResource {
 	@DELETE
 	@Path("{id}")
 	public Response deleteWorkItem(@PathParam("id") Long id) {
-		service.deleteWorkItem(id);
+		workItemService.deleteWorkItem(id);
 		return Response.status(Status.NO_CONTENT).build();
 	}
 	
 	@GET
 	@Path("{id}")
 	public Response getWorkItem(@PathParam("id") Long id) {
-		DTOWorkItem dtoWorkItem = service.getDTOWorkItemById(id);
+		DTOWorkItem dtoWorkItem = workItemService.getDTOWorkItemById(id);
 		return Response.ok(dtoWorkItem).build();
 	}
 	
@@ -99,13 +98,13 @@ public final class WorkItemResource {
 		int size = pageRequest.getSize();
 		
 		if(request.getStatus() != null)
-			list = service.getWorkItemsByStatus(request.getStatus(), page, size);
+			list = workItemService.getWorkItemsByStatus(request.getStatus(), page, size);
 		else if(request.getDescription() != null)
-			list = service.searchWorkItemByDescription(request.getDescription(), page, size);
+			list = workItemService.searchWorkItemByDescription(request.getDescription(), page, size);
 		else if(request.isWithIssue())
-			list = service.getWorkItemsWithIssue(page, size);
+			list = workItemService.getWorkItemsWithIssue(page, size);
 		else
-			list = service.getAllWorkItems(page, size);
+			list = workItemService.getAllWorkItems(page, size);
 		
 		return Response.ok(list).build();
 	}
