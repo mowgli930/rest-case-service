@@ -87,6 +87,13 @@ public final class WorkItemResource {
 	}
 	
 	@GET
+	@Path("{id}")
+	public Response getWorkItem(@PathParam("id") Long id) {
+		DTOWorkItem dtoWorkItem = service.getDTOWorkItemById(id);
+		return Response.ok(dtoWorkItem).build();
+	}
+	
+	@GET
 	public Response getWorkItems(@BeanParam WorkItemRequestBean request, @BeanParam PageRequestBean pageRequest) {
 		List<WorkItem> list = null;
 		int page = pageRequest.getPage();

@@ -98,6 +98,12 @@ public class DTOWorkItemService {
 			throw new WebInternalErrorException(e.getMessage());
 		}
 	}
+	
+	public DTOWorkItem getDTOWorkItemById(Long id) {
+		WorkItem workItem = getWorkItemById(id);
+		DTOWorkItem dtoWorkItem = null;
+		return dtoWorkItem.toDTO(workItem);
+	}
 
 	public List<WorkItem> getWorkItemsByTeamId(Long teamId, int page, int size) {
 		try {
