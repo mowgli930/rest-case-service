@@ -33,9 +33,9 @@ public class UserService {
 		try {
 			return service.save(savedUser);
 		} catch (AlreadyPersistedException e1) {
-			throw new ConflictException("Username already exists");
+			throw new ConflictException(e1.getMessage());
 		} catch (InternalErrorException e2) {
-			throw new WebInternalErrorException("Server error");
+			throw new WebInternalErrorException(e2.getMessage());
 		}
 	}
 
@@ -43,9 +43,9 @@ public class UserService {
 		try {
 			return service.updateUserFirstName(userId, firstName);
 		} catch (NotPersistedException e1) {
-			throw new NotFoundException("User does not exist");
+			throw new NotFoundException(e1.getMessage());
 		} catch (InternalErrorException e2) {
-			throw new WebInternalErrorException("Server error");
+			throw new WebInternalErrorException(e2.getMessage());
 		}
 	}
 
@@ -53,9 +53,9 @@ public class UserService {
 		try {
 			return service.updateUserLastName(userId, lastName);
 		} catch (NotPersistedException e1) {
-			throw new NotFoundException("User does not exist");
-		} catch (InternalErrorException e) {
-			throw new WebInternalErrorException("Server error");
+			throw new NotFoundException(e1.getMessage());
+		} catch (InternalErrorException e2) {
+			throw new WebInternalErrorException(e2.getMessage());
 		}
 	}
 
@@ -63,13 +63,13 @@ public class UserService {
 		try {
 			return service.updateUserUsername(userId, username);
 		} catch (IllegalArgumentException e1) {
-			throw new BadRequestException("Username is not long enough");
+			throw new BadRequestException(e1.getMessage());
 		} catch (NotPersistedException e2) {
-			throw new NotFoundException("User does not exist");
+			throw new NotFoundException(e2.getMessage());
 		} catch (InternalErrorException e3) {
-			throw new WebInternalErrorException("Server error");
+			throw new WebInternalErrorException(e3.getMessage());
 		} catch (AlreadyPersistedException e4) {
-			throw new ConflictException("Username already exists");
+			throw new ConflictException(e4.getMessage());
 		}
 	}
 
@@ -82,9 +82,9 @@ public class UserService {
 			}
 
 		} catch (NotPersistedException e1) {
-			throw new NotFoundException("User does not exist");
+			throw new NotFoundException(e1.getMessage());
 		} catch (InternalErrorException e2) {
-			throw new WebInternalErrorException("Server error");
+			throw new WebInternalErrorException(e2.getMessage());
 		}
 	}
 
@@ -93,9 +93,9 @@ public class UserService {
 		try {
 			return toDTO(service.getUser(userId));
 		} catch (NotPersistedException e1) {
-			throw new NotFoundException("User does not exist");
+			throw new NotFoundException(e1.getMessage());
 		}catch (InternalErrorException e2) {
-			throw new WebInternalErrorException("Server error");
+			throw new WebInternalErrorException(e2.getMessage());
 		}
 	}
 
@@ -106,7 +106,7 @@ public class UserService {
 
 			return userListToDTOUserList(list);
 		} catch (InternalErrorException e1) {
-			throw new WebInternalErrorException("Server error");
+			throw new WebInternalErrorException(e1.getMessage());
 		}
 	}
 
@@ -117,7 +117,7 @@ public class UserService {
 
 			return userListToDTOUserList(list);
 		} catch (InternalErrorException e1) {
-			throw new WebInternalErrorException("Server error");
+			throw new WebInternalErrorException(e1.getMessage());
 		}
 	}
 	
@@ -126,9 +126,9 @@ public class UserService {
 		try{
 			return service.addUserToTeam(userId, teamId);
 		}catch (NoSpaceException e1) {
-			throw new ConflictException("Team is full");
+			throw new ConflictException(e1.getMessage());
 		}catch (InternalErrorException e2) {
-			throw new WebInternalErrorException("Server error");
+			throw new WebInternalErrorException(e2.getMessage());
 		}
 	}
 
