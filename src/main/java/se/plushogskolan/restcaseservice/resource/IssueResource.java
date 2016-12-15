@@ -25,10 +25,10 @@ import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.service.IssueService;
 
 @Component
-@Produces({MediaType.APPLICATION_JSON})
-@Consumes({MediaType.APPLICATION_JSON})
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Path("issues")
-public class IssueResource {
+public final class IssueResource {
 	
 	@Context
 	private UriInfo uriInfo;
