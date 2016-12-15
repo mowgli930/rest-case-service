@@ -46,7 +46,7 @@ public class IssueService {
 		try {
 			return service.updateIssueDescription(issueId, description);
 		}catch (NotPersistedException e1) {
-			throw new NotFoundException("User does not exist");
+			throw new NotFoundException("Issue does not exist");
 		} catch (InternalErrorException e) {
 			throw new WebInternalErrorException("Server error");
 		}
