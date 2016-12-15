@@ -37,10 +37,10 @@ import se.plushogskolan.restcaseservice.service.DTOWorkItemService;
 public final class UserResource {
 
 	@Autowired
-	DTOUserService userService;
-	
+	private DTOUserService userService;
+
 	@Autowired
-	DTOWorkItemService workItemService;
+	private DTOWorkItemService workItemService;
 
 	@Context
 	private UriInfo uriInfo;
@@ -86,13 +86,16 @@ public final class UserResource {
 
 		List<DTOUser> list = userService.searchUsersByFirstNameLastNameUsername(bean.getFirstName(), bean.getLastName(),
 				bean.getUsername(), bean.getPage(), bean.getSize());
-		
+
 		return Response.ok(list).build();
 	}
-	
+
 	@GET
 	@Path("{id}/workitems")
-	public Collection<WorkItem> getWorkItemsByUserId(@PathParam("id") Long id, @BeanParam PageRequestBean pageRequest) {
-		return workItemService.getWorkItemsByUserId(id, pageRequest.getPage(), pageRequest.getSize());
+	public Response getWorkItemsByUserId(@PathParam("id") Long id, @BeanParam PageRequestBean pageRequest) {
+
+		List<WorkItem> list = workItemService.getWorkItemsByUserId(id, pageRequest.getPage(), pageRequest.getSize());
+
+		return Response.ok(list).build();
 	}
 }
