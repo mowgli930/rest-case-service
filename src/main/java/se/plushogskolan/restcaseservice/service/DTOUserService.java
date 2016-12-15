@@ -17,6 +17,7 @@ import se.plushogskolan.casemanagement.service.CaseService;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
 import se.plushogskolan.restcaseservice.exception.WebInternalErrorException;
 import se.plushogskolan.restcaseservice.model.DTOUser;
+import static se.plushogskolan.restcaseservice.model.DTOUser.*;
 
 @Component
 public class DTOUserService {
@@ -28,7 +29,7 @@ public class DTOUserService {
 	}
 
 	public User saveUser(DTOUser dtoUser) {
-		User savedUser = dtoUser.toEntity(dtoUser);
+		User savedUser = toEntity(dtoUser);
 		try {
 			return service.save(savedUser);
 		} catch (AlreadyPersistedException e1) {
@@ -90,7 +91,7 @@ public class DTOUserService {
 	public DTOUser getUser(Long userId) {
 
 		try {
-			return DTOUser.builder().build("").toDTO(service.getUser(userId));
+			return toDTO(service.getUser(userId));
 		} catch (NotPersistedException e1) {
 			throw new NotFoundException("User does not exist");
 		}catch (InternalErrorException e2) {
@@ -135,10 +136,8 @@ public class DTOUserService {
 
 		List<DTOUser> listDto = new ArrayList<>();
 
-		DTOUser dtoUser = DTOUser.builder().build("");
-
 		for (User user : list) {
-			listDto.add(dtoUser.toDTO(user));
+			listDto.add(toDTO(user));
 		}
 
 		return listDto;

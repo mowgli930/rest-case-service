@@ -2,7 +2,7 @@ package se.plushogskolan.restcaseservice.model;
 
 import se.plushogskolan.casemanagement.model.User;
 
-public final class DTOUser extends AbstractDTO implements ModelConverter<User, DTOUser> {
+public final class DTOUser extends AbstractDTO {
 
 	private final String firstName;
 	private final String lastName;
@@ -72,8 +72,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 		return result;
 	}
 
-	@Override
-	public DTOUser toDTO(User entity) {
+	public static DTOUser toDTO(User entity) {
 
 		DTOUserBuilder builder = new DTOUserBuilder();
 		builder.setFirstName(entity.getFirstName()).setLastName(entity.getLastName()).setIsActive(entity.isActive())
@@ -82,8 +81,7 @@ public final class DTOUser extends AbstractDTO implements ModelConverter<User, D
 		return builder.build(entity.getUsername());
 	}
 
-	@Override
-	public User toEntity(DTOUser dataTransferObject) {
+	public static User toEntity(DTOUser dataTransferObject) {
 
 		User user = new User(dataTransferObject.getUsername()).setFirstName(dataTransferObject.getFirstName())
 				.setLastName(dataTransferObject.getLastName()).setActive(dataTransferObject.isActive);
