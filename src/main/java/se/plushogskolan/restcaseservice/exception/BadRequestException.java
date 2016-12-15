@@ -1,6 +1,6 @@
 package se.plushogskolan.restcaseservice.exception;
 
-public class BadRequestException extends RuntimeException {
+public final class BadRequestException extends RuntimeException {
 
 	private static final long serialVersionUID = -7125285031609629332L;
 

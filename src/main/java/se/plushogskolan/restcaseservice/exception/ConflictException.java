@@ -1,6 +1,6 @@
 package se.plushogskolan.restcaseservice.exception;
 
-public class ConflictException extends RuntimeException {
+public final class ConflictException extends RuntimeException {
 
 	private static final long serialVersionUID = 3521770364975472112L;
 
