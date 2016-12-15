@@ -41,7 +41,7 @@ public class TeamService {
 		try {
 			return service.updateTeam(dtoTeamId, DTOTeam.toEntity(dtoTeam));
 		} catch (NotPersistedException e1) {
-			throw new NotFoundException("User does not exist");
+			throw new NotFoundException("Team does not exist");
 		} catch (InternalErrorException e2) {
 			throw new WebInternalErrorException("server error");
 		}
