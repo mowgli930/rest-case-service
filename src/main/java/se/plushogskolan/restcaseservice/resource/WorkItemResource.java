@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import se.plushogskolan.casemanagement.model.Issue;
 import se.plushogskolan.casemanagement.model.WorkItem;
-import se.plushogskolan.restcaseservice.model.DTOIssue;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
 import se.plushogskolan.restcaseservice.model.WorkItemRequestBean;
@@ -56,8 +55,8 @@ public final class WorkItemResource {
 	
 	@POST
 	@Path("{id}/issues")
-	public Response saveIssue(DTOIssue dtoIssue, @PathParam("id") Long workItemId){
-		Issue issue = issueService.save(dtoIssue, workItemId);
+	public Response saveIssue(String description, @PathParam("id") Long workItemId){
+		Issue issue = issueService.save(description, workItemId);
 		
 		URI location = uriInfo.getAbsolutePathBuilder()
 				.path(issue.getId().toString())

@@ -28,10 +28,10 @@ public class IssueService {
 		this.service = service;
 	}
 
-	public Issue save(DTOIssue dtoIssue, Long workItemId) {
+	public Issue save(String description, Long workItemId) {
 		try {
 			WorkItem wi = service.getWorkItemById(workItemId);
-			Issue issue = DTOIssue.toEntity(dtoIssue);
+			Issue issue = new Issue(wi, description);
 			issue.setWorkItem(wi);
 			return service.save(issue);
 		} catch (AlreadyPersistedException e1) {
