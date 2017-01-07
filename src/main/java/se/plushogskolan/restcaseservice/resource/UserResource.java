@@ -69,8 +69,8 @@ public final class UserResource {
 		if (dtoUser != null && dtoUser.getLastName() != null)
 			userService.updateUserLastName(id, dtoUser.getLastName());
 
-		if (dtoUser != null && dtoUser.getIsActive() != null)
-			userService.updateUserIsActive(id, dtoUser.getIsActive());
+		if (dtoUser != null && dtoUser.isActive() != null)
+			userService.updateUserIsActive(id, dtoUser.isActive());
 
 		if (workItemId != null)
 			workItemService.addWorkItemToUser(workItemId, id);

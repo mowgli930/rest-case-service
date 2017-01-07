@@ -14,8 +14,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		String token = requestContext.getHeaderString("Authorization");
-		System.out.println("Does this work as well?\n" + token);
-		authorize(token);
+		System.out.println(authorize(token));
 	}
 
 	private boolean authorize(String token) {

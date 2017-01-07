@@ -7,14 +7,14 @@ public final class DTOUser extends AbstractDTO {
 	private final String firstName;
 	private final String lastName;
 	private final String username;
-	private final Boolean isActive;
+	private final Boolean active;
 
 	private DTOUser(Long id, String firstName, String lastName, String username, Boolean isActive) {
 		super(id);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
-		this.isActive = isActive;
+		this.active = isActive;
 	}
 
 	private DTOUser() {
@@ -22,7 +22,7 @@ public final class DTOUser extends AbstractDTO {
 		this.username = null;
 		this.firstName = null;
 		this.lastName = null;
-		this.isActive = null;
+		this.active = null;
 	}
 
 	public static DTOUserBuilder builder() {
@@ -41,25 +41,18 @@ public final class DTOUser extends AbstractDTO {
 		return username;
 	}
 
-	public Boolean getIsActive() {
-		return isActive;
+	public Boolean isActive() {
+		return active;
 	}
 
 	@Override
-	public boolean equals(Object other) {
-
-		if (this == other) {
+	public boolean equals(Object obj) {
+		if(this == obj)
 			return true;
-		}
-
-		if (null == other) {
-			return false;
-		}
-
-		if (other instanceof User) {
-			User otherUser = (User) other;
-			return firstName.equals(otherUser.getFirstName()) && lastName.equals(otherUser.getLastName())
-					&& username.equals(otherUser.getUsername()) && isActive == otherUser.isActive();
+		else if(obj instanceof DTOUser) {
+			DTOUser other = (DTOUser) obj;
+			return firstName.equals(other.getFirstName()) && lastName.equals(other.getLastName())
+					&& username.equals(other.getUsername()) && active == other.isActive();
 		}
 		return false;
 	}
@@ -84,7 +77,7 @@ public final class DTOUser extends AbstractDTO {
 	public static User toEntity(DTOUser dataTransferObject) {
 
 		User user = new User(dataTransferObject.getUsername()).setFirstName(dataTransferObject.getFirstName())
-				.setLastName(dataTransferObject.getLastName()).setActive(dataTransferObject.isActive);
+				.setLastName(dataTransferObject.getLastName()).setActive(dataTransferObject.active);
 
 		return user;
 	}
