@@ -9,20 +9,29 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import se.plushogskolan.casemanagement.model.WorkItem;
+import se.plushogskolan.casemanagement.repository.WorkItemRepository;
 import se.plushogskolan.restcaseservice.config.JerseyConfig;
 import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 
 public class WorkItemResourceTest {
 	
-	static Client client; //TODO Make sure it can be a static global variable
+	private static Client client; //TODO Make sure it can be a static global variable
+	private static AnnotationConfigApplicationContext context;
+	private static WorkItemRepository workItemRepository;
 	
 	@BeforeClass
 	public static void setUp() {
 		client = ClientBuilder.newClient(new JerseyConfig());
+		context = new AnnotationConfigApplicationContext();
+		context.scan("se.plushogskolan.casemanagement");
+		context.refresh();
+		workItemRepository = context.getBean(WorkItemRepository.class);
 	}
 	
 	@Test
@@ -52,6 +61,11 @@ public class WorkItemResourceTest {
 		deleteBuilder.delete();
 		
 		assertTrue(true);
+	}
+	
+	@AfterClass
+	public static void tearDown() {
+		
 	}
 	
 	private WebTarget newTarget() {
