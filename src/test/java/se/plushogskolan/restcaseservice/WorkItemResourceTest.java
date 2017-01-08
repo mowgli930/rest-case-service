@@ -8,7 +8,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,32 +18,27 @@ import se.plushogskolan.restcaseservice.model.DTOWorkItem;
 
 public class WorkItemResourceTest {
 	
-	static WebTarget target;
-	static Client client;
-	static Invocation.Builder invocationBuilder;
+	static Client client; //TODO Make sure it can be a static global variable
 	
 	@BeforeClass
 	public static void setUp() {
 		client = ClientBuilder.newClient(new JerseyConfig());
-		target = client.target("http://127.0.0.1:8080").path("workitems");
-		invocationBuilder = target.request(MediaType.APPLICATION_JSON)
-				.header("Authorization", "plz-give-VG");
 	}
 	
-//	@Test
+	@Test
 	public void getTest() {
-		String entity = invocationBuilder.get(String.class);
+		String entity = newInvocation().get(String.class);
 		
 		System.out.println(entity);
 		
 		assertTrue(true);
 	}
 	
-//	@Test
+	@Test
 	public void postTest() {
 		DTOWorkItem beanToPost = new DTOWorkItem(101L, "Get some shit done", WorkItem.Status.UNSTARTED);
 		
-		invocationBuilder.post(Entity.entity(beanToPost, MediaType.APPLICATION_JSON));
+		newInvocation().post(Entity.entity(beanToPost, MediaType.APPLICATION_JSON));
 		
 		assertTrue(true);
 	}
@@ -60,5 +54,14 @@ public class WorkItemResourceTest {
 		assertTrue(true);
 	}
 	
-	//TODO create getNewTarget method or something like that
+	private WebTarget newTarget() {
+		WebTarget target = client.target("http://127.0.0.1:8080").path("workitems");
+		return target;
+	}
+	
+	private Invocation.Builder newInvocation() {
+		Invocation.Builder invocationBuilder = newTarget().request(MediaType.APPLICATION_JSON)
+				.header("Authorization", "plz-give-VG");
+		return invocationBuilder;
+	}
 }
