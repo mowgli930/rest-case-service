@@ -26,7 +26,7 @@ import se.plushogskolan.casemanagement.model.WorkItem;
 import se.plushogskolan.restcaseservice.exception.ConflictException;
 import se.plushogskolan.restcaseservice.model.DTOUser;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
-import se.plushogskolan.restcaseservice.model.UsersRequestBean;
+import se.plushogskolan.restcaseservice.model.UserRequestBean;
 import se.plushogskolan.restcaseservice.service.UserService;
 import se.plushogskolan.restcaseservice.service.WorkItemService;
 
@@ -86,7 +86,7 @@ public final class UserResource {
 	}
 
 	@GET
-	public Response searchUsers(@BeanParam UsersRequestBean bean) {
+	public Response searchUsers(@BeanParam UserRequestBean bean) {
 
 		List<DTOUser> list = userService.searchUsersByFirstNameLastNameUsername(bean.getFirstName(), bean.getLastName(),
 				bean.getUsername(), bean.getPage(), bean.getSize());

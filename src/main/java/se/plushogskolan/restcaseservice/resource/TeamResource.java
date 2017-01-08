@@ -25,7 +25,7 @@ import se.plushogskolan.casemanagement.model.Team;
 import se.plushogskolan.restcaseservice.model.DTOTeam;
 import se.plushogskolan.restcaseservice.model.DTOUser;
 import se.plushogskolan.restcaseservice.model.PageRequestBean;
-import se.plushogskolan.restcaseservice.model.UsersRequestBean;
+import se.plushogskolan.restcaseservice.model.UserRequestBean;
 import se.plushogskolan.restcaseservice.service.TeamService;
 import se.plushogskolan.restcaseservice.service.UserService;
 import se.plushogskolan.restcaseservice.service.WorkItemService;
@@ -90,7 +90,7 @@ public final class TeamResource {
 
 	@GET
 	@Path("{id}/users")
-	public Response getUsersByTeam(@BeanParam UsersRequestBean bean, @PathParam("id") Long id) {
+	public Response getUsersByTeam(@BeanParam UserRequestBean bean, @PathParam("id") Long id) {
 		List<DTOUser> dtoList = userService.getUsersByTeam(id, bean.getPage(), bean.getSize());
 		return Response.ok(dtoList).build();
 	}
